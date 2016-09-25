@@ -1,0 +1,144 @@
+\documentclass[11pt,a4paper,notitlepage]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{braket}
+\pagenumbering{arabic}
+
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+%\setlength{\parindent}{0pt}
+
+\lstdefinestyle{pystyle}{
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{dkgreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{gray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,  
+  breakatwhitespace=false
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
+\lstdefinestyle{iStyle}{
+  language=IDL,
+  aboveskip=3mm,
+  belowskip=3mm,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  backgroundcolor=\color{backcolour},
+  commentstyle=\color{dkgreen},
+  keywordstyle=\color{magenta},
+  numberstyle=\tiny\color{gray},
+  stringstyle=\color{codepurple},
+  basicstyle=\footnotesize,  
+  breakatwhitespace=false
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
+\lstdefinestyle{c++style}{
+  language=C++,
+  keywordstyle=\color{blue}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  commentstyle=\color{green}\ttfamily,
+  morecomment=[l][\color{magenta}]{\#}
+  aboveskip=3mm,
+  belowskip=3mm,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  backgroundcolor=\color{backcolour},
+  numberstyle=\tiny\color{gray},
+  basicstyle=\footnotesize,  
+  breakatwhitespace=false
+  breaklines=true,
+  captionpos=b,
+  keepspaces=true,
+  numbers=left,
+  numbersep=5pt,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2
+}
+
+\title{\normalsize Fys4150: Computational Physics \\
+\vspace{10mm}
+\huge Project 2\\
+\vspace{10mm}
+\normalsize Due date {\bf 3rd of October, 2016 - 12.00}}
+
+% Skriv namnet ditt her og fjern kommenteringa
+\author{\Oyvind B. Svendsen, Magnus Christopher Bareid \\ un: oyvinbsv, magnucb}
+
+\newcommand\pd[2]{\frac{\partial #1}{\partial #2}}
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+
+\begin{document}
+\noindent
+\maketitle
+\vspace{10mm}
+\begin{abstract}
+\end{abstract}
+
+\begin{center}
+%\line(1,0){450}
+\end{center}
+
+\newpage
+\tableofcontents
+
+\newpage
+\section{Introduction}
+\section{Theory}
+%orthogonality
+\section{Method} \label{sec:method}
+\section{Results}
+\section{Explanation of programs}
+\subsection{Unit tests}
+%orthogonality
+%symmetry
+\subsection{main.cpp}
+\section{Conclusion and discussion}
+\section{Appendix - Github} \label{section:github}
+\url{https://github.com/theknight1509/FYS4150_Project2}
+\section{references}
+\end{document}
