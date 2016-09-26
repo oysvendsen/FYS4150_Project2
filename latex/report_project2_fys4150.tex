@@ -103,11 +103,14 @@
 \vspace{10mm}
 \huge Project 2\\
 \vspace{10mm}
-\normalsize Due date {\bf 3rd of October, 2016 - 12.00}}
+\normalsize Due date {\bf October $3^{rd}$, 2016}}
 
 % Skriv namnet ditt her og fjern kommenteringa
-\author{\Oyvind B. Svendsen, Magnus Christopher Bareid \\ un: oyvinbsv, magnucb}
+\author{Øyvind B. Svendsen, Magnus Christopher Bareid \\ un: oyvinbsv, magnucb}
 
+\newcommand{\SE}{Schr\"odinger equation}
+\newcommand{\laplacian}{\vec{\nabla}^2}
+%\newcommand{\hbar}{\bar{h}}
 \newcommand\pd[2]{\frac{\partial #1}{\partial #2}}
 \def\doubleunderline#1{\underline{\underline{#1}}}
 
@@ -128,8 +131,59 @@
 
 \newpage
 \section{Introduction}
+The goal of this project is to solve the \SE for one and two electrons in, and not in, an harmonic oscillator potential. The \SE will be simplified to an eigenvalue problem in one dimension(radial). 
+
+The structure of the report will first lay out all the theory behind solving this problem, and all the subproblems that arissen. Afterwards the theory will be turned into a viable, realistic, implementation in the method's section, before presenting the results. 
+
+Before any finishing remarks, the numerical programs and algorithms will be discussed. Considering both numerical advantages and disadvantages, before presenting the programs themselves. For any individual interested in replicating the solution; the full projectfolder can be found on Github.
+
 \section{Theory}
-%orthogonality
+%Schrodinger equation
+Beginning with the time-independent \SE for one electron:
+\begin{equation} \label{eq:SE 1e}
+	-\frac{\hbar^2}{2m}\laplacian \psi + V\psi = E\psi 			
+	\indent
+	\cite[chapter 4, p.132, eq:4.8]{schrodinger_equation}
+\end{equation}
+
+This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1e} will be transformed to radial coordinates with spherical harmonics.
+\begin{align*}
+	-\frac{\hbar^2}{2m}\left( \frac{1}{r^2} \frac{d}{dr}\left [ r^2\frac{d}{dr}\right ] - \frac{l(l+1)}{r^2}\right) \psi(r) + V(r)\psi(r) = E\psi(r)
+\end{align*}
+
+\begin{flushright}
+\begin{minipage}{0.5\linewidth}
+	Perform change of variables 
+	\begin{align*}
+		\psi(r) &= \frac{u(r)}{r} \\
+		\frac{d\psi}{dr} &= \frac{d}{dr}\left[\frac{u(r)}{r}\right] \\
+		&= \frac{1}{r}\frac{du}{dr} - \frac{u}{r^2} \\
+		\frac{d}{dr}\left[ r^2 \frac{d\psi}{dr} \right] 
+		&= \frac{d}{dr}\left[ r\frac{du}{dr} - u(r) \right] \\
+		&= r\frac{d^2u}{dr^2}
+	\end{align*}
+\end{minipage}
+\end{flushright}
+
+\begin{align*}
+	-\frac{\hbar^2}{2m}\left( \frac{1}{r} \frac{d^2u}{dr^2} - \frac{l(l+1)u(r)}{r^3}\right) + V(r)\frac{u(r)}{r} &= E\frac{u(r)}{r} \\
+	-\frac{\hbar^2}{2m}\left( \frac{d^2u}{dr^2} - \frac{l(l+1)u(r)}{r^2}\right) + V(r)u(r) &= Eu(r)
+\end{align*}
+
+\begin{flushright}
+\begin{minipage}{0.5\linewidth}
+	Perform change of variables 
+	\begin{align*}
+		r &= \alpha \rho \\
+		\frac{d\rho}{dr} &= \frac{1}{\alpha} \\
+		\frac{du}{dr} &= \frac{d\rho}{dr}\frac{du}{d\rho} = \frac{1}{\alpha}\frac{du}{d\rho} \\
+		\frac{d^2u}{dr^2} &= \left(\frac{d\rho}{dr}\right)^2 \frac{d^2u}{d\rho^2} = \frac{1}{\alpha^2} \frac{d^2u}{d\rho^2}
+	\end{align*}
+\end{minipage}
+\end{flushright}
+
+%TODO finish
+%TODO orthogonality
 \section{Method} \label{sec:method}
 \section{Results}
 \section{Explanation of programs}
@@ -140,5 +194,14 @@
 \section{Conclusion and discussion}
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
-\section{references}
+\section{References}
+\begin{thebibliography}{9}
+
+\bibitem{schrodinger_equation}
+  Griffiths D.J, 
+  Pearson (1995),
+  \emph{Introduction to quantum mechanics},
+  $2^{nd}$ edition(international).
+
+\end{thebibliography}
 \end{document}
