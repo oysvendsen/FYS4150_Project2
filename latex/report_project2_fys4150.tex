@@ -182,6 +182,40 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
 \end{minipage}
 \end{flushright}
 
+\begin{align*}
+	-\frac{\hbar^2}{2m\alpha^2}\frac{d^2u}{d\rho^2} + \left(  \frac{\hbar^2}{2m\alpha^2}\frac{l(l+1)}{\rho^2} + V(\rho)\right)u(\rho) &= Eu(\rho) 
+	\intertext{Now we will look for specific cases of $l=0$ and 
+	$V(\rho)=\frac{1}{2}k(\alpha\rho)^2$(harmonic oscilator potential)}
+	-\frac{\hbar^2}{2m\alpha^2}\frac{d^2u}{d\rho^2} + \frac{1}{2}k(\alpha\rho)^2 u(\rho) &= Eu(\rho) \\ 
+	-\frac{d^2u}{d\rho^2} + \frac{mk\alpha^4\rho^2}{\hbar^2} u(\rho) &= \frac{2m\alpha^2}{\hbar^2}Eu(\rho)
+	\intertext{by saying that $\frac{mk\alpha^4\rho^2}{\hbar^2}=1 \Rightarrow\alpha=\sqrt[4]{\frac{\hbar^2}{mk}}$ and $\frac{2m\alpha^2}{\hbar^2}E=\lambda$ the equation becomes quite pretty (remember that $\alpha$ is merely a scale factor that are determined by us).}
+	-\frac{d^2u}{d\rho^2} + \rho^2u(\rho) &= \lambda u(\rho)
+\end{align*}
+
+\begin{minipage}{0.5\linewidth}
+	This can be written as a matrix-equation:
+	\begin{equation} \label{eq:matrix}
+		\hat{A} \vec{u} = \lambda \vec{u}
+	\end{equation}
+\end{minipage} 
+\begin{minipage}{0.5\linewidth}
+	Where:
+	\begin{align*}
+		\hat{A} &= -\frac{d^2}{d\rho^2} + \rho^2 \\
+		\vec{u} &= u(\rho) 
+	\end{align*}
+\end{minipage}
+
+
+\subsection{Discretization of matrix-equation:}
+	In the Linear Algebra chapter\cite[Jensen 2016] {discretize_double_deriv} the discretized function for the double derivative is given by:
+	\begin{equation}\label{eq:discretized}
+		y_i^{''} = \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} + O(h^2)
+	\end{equation}
+	Where; $x_i = x_0 + ih$, $y_i = y(x_i)$, where h is the steplength of x, $y^{''}$ is the double derivative of y and $O(h^2)$ is the mathematical error of this approximation.
+	%TODO finish	
+	
+\subsection{Jacobi's Method:}
 %TODO finish
 %TODO orthogonality
 \section{Method} \label{sec:method}
@@ -202,6 +236,13 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
   Pearson (1995),
   \emph{Introduction to quantum mechanics},
   $2^{nd}$ edition(international).
+  
+\bibitem{discretize_double_deriv}
+	Jensen, M 2016, 
+	Computational Physics Lectures: Linear
+Algebra methods, 
+	viewed $27^{th}$ September 2016, 
+	<http://compphysics.github.io/ComputationalPhysics/doc/pub/linalg/pdf/linalg-print.pdf> p.12. 
 
 \end{thebibliography}
 \end{document}
