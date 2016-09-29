@@ -199,7 +199,7 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
 	\end{equation}
 \end{minipage} 
 \begin{minipage}{0.5\linewidth}
-	Where:
+	%Where:
 	\begin{align*}
 		\hat{A} &= -\frac{d^2}{d\rho^2} + \rho^2 \\
 		\vec{u} &= u(\rho) 
@@ -207,21 +207,68 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
 \end{minipage}
 
 
-\subsection{Discretization of matrix-equation:}
+\subsection{Discretization of matrix-equation}
 	In the Linear Algebra chapter\cite[Jensen 2016] {discretize_double_deriv} the discretized function for the double derivative is given by:
 	\begin{equation}\label{eq:discretized}
 		y_i^{''} = \frac{y_{i+1} - 2y_i + y_{i-1}}{h^2} + O(h^2)
 	\end{equation}
-	Where; $x_i = x_0 + ih$, $y_i = y(x_i)$, where h is the steplength of x, $y^{''}$ is the double derivative of y and $O(h^2)$ is the mathematical error of this approximation.
-	%TODO finish	
-	
-\subsection{Jacobi's Method:}
-%TODO finish
-%TODO orthogonality
+	Where; $x_i = x_0 + ih$, $y_i = y(x_i)$, where h is the steplength of x, $y^{''}$ is the double derivative of y and $O(h^2)$ is the mathematical error of this approximation. \\
+	As shown in the Linear Algebra chapter this can be turned into a matrix-operation of the differential equation.
+	\begin{align*}
+		-\frac{d^2u_i}{d\rho^2} + \rho_i^2u_i &= \lambda_i u_i
+		\intertext{ \flushright \small 
+			Where $u_i = u(\rho_i)$ for discretized lengths, with 
+			corresponding eigenvalues, $\lambda_i$
+		}
+		\eqref{eq:discretized} \Rightarrow 
+		-\frac{u_{i+1} - 2u_i + u_{i-1}}{h^2} + \rho_i^2u_i 
+		&\simeq \lambda_i u_i
+		\intertext{\flushright \small 
+		Using Einstein notation for discretized vectors
+		}
+		\hat{A} \vec{u} &\simeq \lambda \vec{u} \\
+		\eqref{eq:matrix} \Rightarrow 
+		\hat{A} &= 
+			\begin{bmatrix}
+				\frac{2}{h^2} + \rho_0^2 & \frac{-1}{h^2} & 0 & \hdots & & 0\\
+				\frac{-1}{h^2} & \frac{2}{h^2} + \rho_1^2 & \frac{-1}{h^2} & & & \vdots \\
+				0 & \frac{-1}{h^2} & \frac{2}{h^2} + \rho_2^2 &  & & &\\
+				\vdots & & & \ddots & &\\
+				& & & & \ddots & \frac{-1}{h^2} \\
+				0 & \hdots & & & \frac{-1}{h^2} & \frac{2}{h^2} + \rho_N^2 \\				
+			\end{bmatrix} \\ 
+		\eqref{eq:matrix} \Rightarrow
+		\vec{u} &= u_i = 
+			\begin{bmatrix}
+				u_0 \\ u_1 \\ \vdots \\ u_N
+			\end{bmatrix}
+	\end{align*}
+
+\subsection{Jacobi's Method}
+In order to find the eigenvalues of a matrix, the matrix matrix must be reduced to a diagonal matrix. If this is done and orthogonality is preserved at the same time, the diagonal elements of the very same matrix will become it's own eigenvalues. 
+
+By establishing a unitary matrix, S, that maintains orthogonality a new matrix can be found.
+I.o.w S is a rotational matrix in the plain.
+\begin{align*}
+	S = \begin{bmatrix}
+		 1 & & & & &  \\
+		 & \ddots & & & & \\
+		 & & \cos(\theta)& \hdots & \sin(\theta)& & \\
+		 & & \vdots & \ddots & \vdots & & \\
+		 & & -\sin(\theta)& \hdots & \cos(\theta) & & \\
+		 & & & & & \ddots & \\
+		 & & & & & & 1 \\
+	\end{bmatrix}
+\end{align*}
+%TODO
+\subsection{Orthogonality}
+%TODO
 \section{Method} \label{sec:method}
+%TODO	
 \section{Results}
 \section{Explanation of programs}
 \subsection{Unit tests}
+%TODO
 %orthogonality
 %symmetry
 \subsection{main.cpp}
