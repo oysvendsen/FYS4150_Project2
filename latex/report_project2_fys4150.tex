@@ -258,8 +258,15 @@ I.o.w S is a rotational matrix in the plain.
 		 & & -\sin(\theta)& \hdots & \cos(\theta) & & \\
 		 & & & & & \ddots & \\
 		 & & & & & & 1 \\
-	\end{bmatrix}
+	\end{bmatrix} \\
+	S^{-1} = S^T
 \end{align*}
+
+Jacobi's method "rotates" two columns of matrix A in order to find a better, "more diagonal" matrix B by rotating once, and then rotating back. To explain:
+\begin{align*}
+	B = S^T A S
+\end{align*}
+Where $S^T$ rotates two columns in A, and S rotates them "back again". This leaves us with a matrix B that is "rotated" once, where two elements are "rotated" to zero. 
 %TODO
 \subsection{Orthogonality}
 %TODO
