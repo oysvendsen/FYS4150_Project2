@@ -104,17 +104,15 @@ int comp(const double *val_1, const double *val_2)
 
 void initialise(double& r_min, double& r_max, int& orb_l, int& max_step) 
 {
-  cout << "Min vakues of R = ";
+  cout << "Minimum values of R = ";
   cin >> r_min;
-  cout << "Max value of R = ";
+  cout << "Maximum value of R = ";
   cin >> r_max;
   cout << "Orbital momentum = ";
   cin >> orb_l;
   cout << "Number of steps = ";
   cin >> max_step;
 }  // end of function initialise   
-
-
 
 
 void output(double r_min , double r_max, int max_step, double *d)
