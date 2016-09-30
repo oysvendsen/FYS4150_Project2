@@ -131,15 +131,15 @@
 
 \newpage
 \section{Introduction}
-The goal of this project is to solve the \SE for one and two electrons in, and not in, an harmonic oscillator potential. The \SE will be simplified to an eigenvalue problem in one dimension(radial). 
+The goal of this project is to solve the \SE \ for one and two electrons in, and not in, an harmonic oscillator potential. The \SE \ will be simplified to an eigenvalue problem in one dimension (radial). 
 
-The structure of the report will first lay out all the theory behind solving this problem, and all the subproblems that arissen. Afterwards the theory will be turned into a viable, realistic, implementation in the method's section, before presenting the results. 
+The structure of the report will first lay out all the theory behind solving this problem, and all the subproblems that arise. Afterwards the theory will be turned into a viable, realistic, implementation in the method's section, before presenting the results. 
 
-Before any finishing remarks, the numerical programs and algorithms will be discussed. Considering both numerical advantages and disadvantages, before presenting the programs themselves. For any individual interested in replicating the solution; the full projectfolder can be found on Github.
+Before any finishing remarks, the numerical programs and algorithms will be discussed by considering both numerical advantages and disadvantages, before presenting the programs themselves. For any individual interested in replicating the solution; the full projectfolder can be found on Github.
 
 \section{Theory}
 %Schrodinger equation
-Beginning with the time-independent \SE for one electron:
+Beginning with the time-independent \SE\  for one electron:
 \begin{equation} \label{eq:SE 1e}
 	-\frac{\hbar^2}{2m}\laplacian \psi + V\psi = E\psi 			
 	\indent
@@ -245,7 +245,7 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
 	\end{align*}
 
 \subsection{Jacobi's Method}
-In order to find the eigenvalues of a matrix, the matrix matrix must be reduced to a diagonal matrix. If this is done and orthogonality is preserved at the same time, the diagonal elements of the very same matrix will become it's own eigenvalues. 
+In order to find the eigenvalues of a matrix, the matrix must be reduced to a diagonal matrix. If this is done and orthogonality is preserved at the same time, the diagonal elements of the very same matrix will become it's own eigenvalues. 
 
 By establishing a unitary matrix, S, that maintains orthogonality a new matrix can be found.
 I.o.w S is a rotational matrix in the plain.
