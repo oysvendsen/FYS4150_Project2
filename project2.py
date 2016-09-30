@@ -42,23 +42,38 @@ def rotation_mat(A, k, l):
     B[:,l]  = A[:,l]*c + A[:,k]*s
     B[k,k]  = A[k,k]*(c**2)- 2*A[k,l]*c*s + A[l,l]*(s**2)
     B[l,l]  = A[l,l]*(c**2)- 2*A[k,l]*c*s + A[k,k]*(s**2)
-    B[k,l]  = 0 #(A[k,k] - A[l,l])*pl.cos(theta)*pl.sin(theta) \
+    B[k,l]  = 0 # (A[k,k] - A[l,l])*pl.cos(theta)*pl.sin(theta) \
                 # + A[k,l]*((pl.cos(theta)**2) - (pl.sin(theta)**2))
     B[l,k]  = 0
 
     return B
 
 
+def find_args(A):
+    """
+    finds k and l as arguments for the maximum value of the matrix
+    """
+    if pl.shape(A)[0] == pl.shape(A)[0]:
+        sz  = pl.shape(A)[0]
+    else:
+        sys.exit("Matrix dimensions don't match")
 
+    maxes   = pl.zeros(sz)
+    rows    = pl.zeros(sz)
+    cols    = pl.zeros(sz)
 
+    for i in range(1, sz):
+        maxes   = pl.max(A[i])      # stores the maxima; tot.max arg val. -> tot.max row arg
+        cols[i] = pl.argmax(A[i])   # stores args of col.s' maxes
 
+    k = pl.max(maxes)
+    l = cols[k]
 
-
-
+    return k, l
 
 def run():
 
-    for i in range(len(diag)):
+    
 
 
 
