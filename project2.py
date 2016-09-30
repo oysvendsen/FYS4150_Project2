@@ -79,11 +79,11 @@ def run():
 
     n   = int(sys.argv[1]) + 1 # or something
     A   = make_A(n)
-    k, l, epsloop = find_args(A)
+    k, l, diff_max = find_args(A)
 
-    while abs(epsloop) > abs(epstol):
+    while abs(diff_max) > abs(epstol):
         A     = rotation_mat(A, k, l)
-        k, l, epsloop = find_args(A)
+        k, l, diff_max = find_args(A)
         drac += 1
 
     print "Total number of iterations:", drac
@@ -97,10 +97,28 @@ def unit_mirror(matrix):
         for j in range(i+1,n):
             diff_tot += abs(matrix[i,j]-matrix[j,i])
             eps_tot += abs(matrix[i,j]-matrix[j,i])**2
+    return eps_tot, diff_tot
+
 def unit_known(matrix):
     None
+    
 def unit_orthogonal(matrix):
-    None
+    """
+    Takes matrix of all eigenvectors, check dot-product of all vectors.
+    Create new matrix of V_i^T*V_j that should be delta_ij.
+    Return difference squared of each element between these two matrices.
+    """
+    shape = matrix.shape()
+    #eirik was here
+    eye = np.eye(shape)
+    eps = np.zeros(shape)
+    for i in range(shape[0]):
+        for j in range(shape[1]):
+            V_i = matrix[i,:]
+            V_j = matrix[:,j]
+            delta = np.dot(V_i,V_j)
+            eps[i,j] = delta*delta - eye[i,j]
+    return sum(sum(eps))
 run()
 
 
