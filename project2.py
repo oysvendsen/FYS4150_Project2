@@ -42,7 +42,9 @@ def rotation_mat(A, k, l):
 
     B   =   A
     B[:,k]  = A[:,k]*c - A[:,l]*s
+    B[k,:]  = B[:,k]
     B[:,l]  = A[:,l]*c + A[:,k]*s
+    B[l,:]  = B[:,l]
     B[k,k]  = A[k,k]*(c**2)- 2*A[k,l]*c*s + A[l,l]*(s**2)
     B[l,l]  = A[l,l]*(c**2)- 2*A[k,l]*c*s + A[k,k]*(s**2)
     B[k,l]  = 0 # (A[k,k] - A[l,l])*pl.cos(theta)*pl.sin(theta) \
@@ -121,16 +123,16 @@ def run():
     k, l, epsloop = find_args(A)
 
     while abs(epsloop) > abs(epstol):
-        print A
-        print drac
-        print k, l
-        raw_input()
+        # print A
+        # print drac
+        # print k, l
+        # raw_input()
         A     = rotation_mat(A, k, l)
         k, l, epsloop = find_args(A)
         drac += 1
 
     print "Total number of iterations:", drac
-    print A
+    print pl.diag(A)
 
 run()
 
