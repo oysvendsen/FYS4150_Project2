@@ -4,30 +4,6 @@ import sys
 import os
 import time
 
-# def rotation(diag, eup, edown, k, l):
-#     """
-#     performs the iteration in question
-#     """
-#     new_diag        = diag
-#     new_eup         = eup
-#     new_edown       = edown
-
-#     tau             = (diag[l,l] - diag[k,k])/float(2*eup[l])
-#     t               = -tau + (1 + tau**2)**0.5
-#     c               = 1./(1+t**2)
-
-#     new_edown[k]    = edown[k]*pl.cos(theta) \
-#                         - eup[l]*pl.sin(theta)
-#     new_eup[l]      = eup[l]*pl.cos(theta) \
-#                         + edown[k]*pl.sin(theta)
-#     new_diag[k]     = diag[k]*(pl.cos(theta)**2) \
-#                         - 2.*eup[l]*pl.cos(theta)*pl.sin(theta) \
-#                         + diag[l]*(pl.sin(theta)**2)
-#     new_diag[l]     = diag[l]*(pl.cos(theta)**2) \
-#                         + 2.*eup[l]*pl.cos(theta)*pl.sin(theta) \
-#                         + diag[k]*(pl.sin(theta)**2)
-#     new_eup[l]
-
 def rotation_mat(A, k, l):
     """
     function for rotation in an iteration
@@ -47,8 +23,7 @@ def rotation_mat(A, k, l):
     B[l,:]  = B[:,l]
     B[k,k]  = A[k,k]*(c**2)- 2*A[k,l]*c*s + A[l,l]*(s**2)
     B[l,l]  = A[l,l]*(c**2)- 2*A[k,l]*c*s + A[k,k]*(s**2)
-    B[k,l]  = 0 # (A[k,k] - A[l,l])*pl.cos(theta)*pl.sin(theta) \
-                # + A[k,l]*((pl.cos(theta)**2) - (pl.sin(theta)**2))
+    B[k,l]  = 0 
     B[l,k]  = 0
     return B
 
@@ -62,23 +37,7 @@ def find_args(A):
     else:
         sys.exit("Matrix dimensions don't match")
 
-    maxes   = pl.zeros(sz)
-    rows    = pl.zeros(sz)
-    cols    = pl.zeros(sz)
     eps     = A[0,1]
-
-    # for i in pl.arange(0, sz-1):
-    #     print "i=", i
-    #     maxes   = pl.amax(abs(A[i,i+1:]))
-    #     print "A_i_row=", A[i,i+1:]
-    #     print "index of max A_i_row=", maxes  
-    #     cols[i] = pl.argmax(abs(A[i,i+1:])) + 1
-    #     print "A_i_row=", 
-    #     print "index of max A_i_row=", cols
-
-    # epsloop = pl.amax(maxes)
-    # k       = pl.argmax(maxes)
-    # l       = pl.int64(cols[k])
     
     for i in pl.arange(0, sz-1):
         for j in pl.arange(i+1, sz):
@@ -123,10 +82,6 @@ def run():
     k, l, epsloop = find_args(A)
 
     while abs(epsloop) > abs(epstol):
-        # print A
-        # print drac
-        # print k, l
-        # raw_input()
         A     = rotation_mat(A, k, l)
         k, l, epsloop = find_args(A)
         drac += 1
@@ -134,6 +89,18 @@ def run():
     print "Total number of iterations:", drac
     print pl.diag(A)
 
+def unit_mirror(matrix):
+    diff_tot = 0
+    eps_tot = 0
+    n = len(matrix[0]) #assume quadratic matrix
+    for i in range(n-1): #rows of upper triangular
+        for j in range(i+1,n):
+            diff_tot += abs(matrix[i,j]-matrix[j,i])
+            eps_tot += abs(matrix[i,j]-matrix[j,i])**2
+def unit_known(matrix):
+    None
+def unit_orthogonal(matrix):
+    None
 run()
 
 

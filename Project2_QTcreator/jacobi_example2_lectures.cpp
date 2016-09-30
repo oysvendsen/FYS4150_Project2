@@ -70,8 +70,6 @@ s = c*t;
 } else {
 c = 1.0;
 s = 0.0;
-219220
-7 Eigensystems
 }
 double a_kk, a_ll, a_ik, a_il, r_ik, r_il;
 a_kk = A[k][k];
