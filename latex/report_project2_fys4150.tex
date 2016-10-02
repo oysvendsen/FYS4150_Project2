@@ -245,7 +245,7 @@ This equation will be hammered to a more solvable one. Firstly eq.\eqref{eq:SE 1
 			\end{bmatrix}
 	\end{align*}
 
-\subsection{Jacobi's Method}
+\subsection{Jacobi's Method}\label{sec:jac}
 In order to find the eigenvalues of a matrix, the matrix must be reduced to a diagonal matrix. If this is done and orthogonality is preserved at the same time, the diagonal elements of the very same matrix will become it's own eigenvalues. 
 
 By establishing a unitary matrix, S, that maintains orthogonality a new matrix can be found.
@@ -287,6 +287,20 @@ This makes for a good test at every iteration to test that the rotation is prese
 %TODO	
 \section{Results}
 \section{Explanation of programs}
+For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, the writing of mandatory \verb|C++| script was initiated.
+
+The main body of the program begins by creating and collecting necessary variables for the algebra, such as $h$, the $\rho$ length array, and empty vectors and matrices for the rotation itself, and eigenvalues to be transformed later.
+
+The program then gives form to the matrix belonging to either a singular case or double electron case; pure number insertion in both cases dependant on the shape of the matrix in both cases, with values depending on what physical case is being initialized.
+
+At this point, the Jacobi matrix rotation transformations process begins - the main purpose of the script and the project to begin with - to remake the previously initialized matrix into a diagonal matrix. An effect of this rotation, is that every element other than those of the diagonal, are transformed into becoming zero, which may be numerically hazardous. The workaround for this is to establish a lowest tolerance of represented off diagonal numbers we allow to exist, given by our definition of $\varepsilon_\text{tolerance}$, which is absolute in terms of the script's structure. What we want is all non-diagonal elements squared to sum up to an amount less than this tolerance, as previously explained in section \ref{sec:method}.
+
+The initial matrix' symmetry, and its eigenvectors' orthogonality, is run through a boolean check, granting boolean variables, and the matrix indices for the largest value of the matrix are found, along with the sum of the off-diagonal elements squared - specifically the upper triangular part of the matrix' elements' sum times two, because we already did do the symmetry test to determine that each triangular portion is equal.
+
+This is when the rotation itself begins, the method of which also is explained in sections \ref{sec:jac} and \ref{sec:method}. As long as the aforementioned sum is less than our tolerance; the symmetry of the matrix, and the orthogonality of its eigenvectors are true; the script will loop to continually rotate the matrix $\hat{A}$ from its initial state and into a diagonal matrix.
+
+When this process is finalized, the resulting matrix data is written to a data file, and subsequently plotted using \verb|Python| to produce a plot of the eigenvalues' properties.
+
 \subsection{Unit tests}
 %TODO
 %orthogonality
