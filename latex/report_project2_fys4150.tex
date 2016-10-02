@@ -18,6 +18,7 @@
 \usepackage{float}
 \usepackage{epstopdf}
 \usepackage{hyperref}
+\usepackage{dsfont}
 \usepackage{braket}
 \pagenumbering{arabic}
 
@@ -99,18 +100,18 @@
   tabsize=2
 }
 
-\title{\normalsize Fys4150: Computational Physics \\
+\title{\normalsize Fys4150: Computational Physics - The Pits and Perils of Programming \\
 \vspace{10mm}
 \huge Project 2\\
 \vspace{10mm}
 \normalsize Due date {\bf October $3^{rd}$, 2016}}
 
 % Skriv namnet ditt her og fjern kommenteringa
-\author{Øyvind B. Svendsen, Magnus Christopher Bareid \\ un: oyvinbsv, magnucb}
+\author{Øyvind B. Svendsen, Magnus Christopher Bareid \\ un: oyvinbsv, magnucb \\ A.k.a. Team Patient Idiots}
 
 \newcommand{\SE}{Schr\"odinger equation}
 \newcommand{\laplacian}{\vec{\nabla}^2}
-%\newcommand{\hbar}{\bar{h}}
+\newcommand{\eye}{\mathds{I}}
 \newcommand\pd[2]{\frac{\partial #1}{\partial #2}}
 \def\doubleunderline#1{\underline{\underline{#1}}}
 
@@ -269,7 +270,19 @@ Jacobi's method "rotates" two columns of matrix A in order to find a better, "mo
 Where $S^T$ rotates two columns in A, and S rotates them "back again". This leaves us with a matrix B that is "rotated" once, where two elements are "rotated" to zero. 
 %TODO
 \subsection{Orthogonality}
-%TODO
+As the matrix is being rotated by use of Jacobi's method, some properties of matrix $\hat{B}$ shall ideally remain the same as of matrix $\hat{A}$, specifically the eigenvectors of belonging to matrix eigenvalues of matrix $\hat{A}$ should remain intact after the transformation. This is true for unitary matrices as shown by the following elaboration.
+
+Suppose there is a basis of eigenvectors $\vec{v}_i\ , i = 0,\dots,N$ that are orthogonal, meaning 
+\begin{align*}
+\vec{v}_j^T \vec{v}_i &= \delta_{i,j}
+\intertext{We assume that a unitarily transformed eigenvector $\vec{w}_i$ is also orthogonal, yielding:}
+\vec{w}_i &= \hat{U}\vec{v}_i\ , \quad \hat{U} \text{ being a unitary matrix, how can we know that $\vec{w}_i$ is also orthogonal?}
+&\intertext{The simplest way to test this is to test if $\vec{w}_j^T\vec{w}_i = \delta_{i,j}$:}
+\Rightarrow \vec{w}_j^T\vec{w}_i &= (\hat{U}\vec{v}_j)^T \hat{U}\vec{v}_i = \vec{v}_j^T\hat{U}^T \hat{U}\vec{v}_i = \vec{v}_j^T \eye \vec{v}_i = \vec{v}_j^T \vec{v}_i = \delta_{i,j} , \quad \text{when $\hat{U}$ is unitary.}
+\end{align*}
+By defintion, $S^T$ and $S$ are unitary matrices. So to test for conservation of orthogonality of eigenvectors for every iteration of the rotation transformation, the same rotations that are performed unto the iterative matrices of $\hat{A}$, will have to be performed on the iterative eigenvectors at every step of the total rotation as well.
+
+This makes for a good test at every iteration to test that the rotation is preserving orthogonality.
 \section{Method} \label{sec:method}
 %TODO	
 \section{Results}
