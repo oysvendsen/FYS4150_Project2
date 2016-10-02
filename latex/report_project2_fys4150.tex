@@ -294,6 +294,12 @@ the other elements of those rows and columns can never grow larger then the valu
 
 When this method finally converges the matrix left is a diagonal matrix, and looking back at the original matrix equation \eqref{eq:matrix} these diagonal values will also be the eigenvalues of the system of equations.
 
+Numerically the matrix is said to have converged when $\varepsilon = \sum_{i=0}^N \sum_{j\neq i} a_{i,j}^2$ is less then $10^{-8}$, in order to account for numerical precision. \\
+
+Thus the eigenvalues are found, but the eigenvectors cannot be read from this matrix alone. The eigenvectors are found by starting with a orthonormal basis of vectors(the simplest in the unity matrix) and perform the exact same rotations of this basis as the matrix A.
+
+The result is a program that finds the eigenvalues and eigenvectors, within a set tolerance, of a matrix that is quadratic and symmetric.
+
 \section{Results}
 \section{Explanation of programs}
 For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, the writing of mandatory \verb|C++| script was initiated.
