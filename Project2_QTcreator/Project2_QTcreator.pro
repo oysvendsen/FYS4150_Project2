@@ -3,5 +3,4 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.cpp \
-    jacobi_example.cpp
+SOURCES += main.cpp
