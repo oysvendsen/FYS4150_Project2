@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <armadillo>
 #include <cmath>
 
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
 
     // start solving for single electron
     singular_electron_matrix(A,rho,h,n);
-    cout << A << endl;
+
     //solve eigenvectors and eigenvalues using jacobi's method
     solve_jacobi(A, R, lambda, n);
 
@@ -134,6 +135,7 @@ void solve_jacobi(double** A, double** eigvec, double* eigval, int n){
     while(iterations<max_iter && sym && orth && eps_iter>eps_tol){
         //perform one jacobi rotation B=S^TAS
         jacobi_rotation(A, eigvec, k, l, n);
+
         //advance iterations, symmetry, orthogonality, epsilon, max-indeces(k,l)
         sym = unit_symmetry(A, n, 1e-10);
         orth = unit_orthogonality(eigvec, n, 1e-10);
@@ -151,16 +153,24 @@ void solve_jacobi(double** A, double** eigvec, double* eigval, int n){
 void jacobi_rotation(double** A, double** R, int k, int l, int n){
     /* Take a matrix A and turn it to matrix B by jacobi_rotation. */
     double tau, t, s, c, a_kk, a_ll, r_ik, r_il;
-
+    cout << "test jacobi1" << endl;
+    cout << k << endl;
+    cout << l << endl;
+    cout << A[l][l] << endl;
+    cout << A[k][k] << endl;
+    cout << A[k][l] << endl;
     tau         = (A[l][l] - A[k][k])/(2.0*A[k][l]); // find cos(2 \theta)
+    cout << "test jacobi2" << endl;
     if (tau >= 0){
         t       = -tau + sqrt(1 + tau*tau); // lowest root of tan(\theta)
+        cout << "test" << endl;
     } else {
         t       = -tau - sqrt(1 + tau*tau); // lowest root of tan(\theta)
+        cout << "test" << endl;
     }
     c           = 1.0/sqrt(1+t*t); // cos(\theta)
     s           = c*t; // sin(\theta)
-
+    cout << "test" << endl;
     a_kk = A[k][k]; a_ll = A[l][l];
     A[k][k]  = a_kk*c*c- 2.0*A[k][l]*c*s + a_ll*s*s; //diagonal values
     A[l][l]  = a_ll*c*c- 2.0*A[k][l]*c*s + a_kk*s*s; //diagonal values
