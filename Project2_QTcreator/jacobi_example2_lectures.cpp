@@ -11,7 +11,8 @@ n: dimention of matrices
 */
 #include <iostream>
 #include <cmath>
-#include "jacobi.h"
+//#include "jacobi.h"
+
 void jacobi_method ( double ** A, double ** R, int n )//7.4 Jacobi’s method
 {
     // Setting up the eigenvector matrix

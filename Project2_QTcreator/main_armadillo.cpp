@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
     double rho_n = 10.0; //end-point of length-array
     h = (rho_n-rho_0)/(n-1); //steplength
     vec rho = linspace<vec> (rho_0, rho_n, n); //length-array
-    double* lambda[n];
-    exit(0)
+    vec lambda = zeros<vec> (n); //eigenvalue-array
+
     // allocate initial matrix and initial matrix of eigenvalues
     mat A(n,n); //matrix
     mat R(n,n); //eigenvalues
