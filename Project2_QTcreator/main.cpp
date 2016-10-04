@@ -5,6 +5,72 @@
 using namespace std;
 using namespace arma;
 
+void singular_electron_matrix(mat &A, vec &rho, double h, int n);
+void double_electron_matrix(mat &A, vec &rho, double o, double h, int n);
+double find_largest(mat &A, int &max_i, int &max_j, int n);
+int kronicker(int i,int j);
+bool unit_symmetry(mat &A, int n, double tol);
+bool unit_orthogonality(mat &A, int shape, double tol);
+void jacobi_rotation(mat &A, mat &R, int k, int l, int n);
+void solve_jacobi( mat &A, mat &eigvec, vec &eigval, int n);
+int unit_known();
+
+int main(int argc, char *argv[])
+{
+    //declare variables
+    double h; //step-length,
+    double rho_0 = 0.0; //starting point of array
+    double rho_n = 10.0; //ending point of array
+    double omega = 0.0; //HO-angular frequency
+    int n = 5; //size of arrays
+    bool interact = false; //interacting or non-interacting electrons
+
+    // fetch cmd-line arguments
+    if (argc == 1){
+        n = argv[1];
+    } else if (argc == 2) {
+        n = argv[1];
+        rho_n = argv[2];
+    } else if (argc == 3) {
+        n = argv[1];
+        rho_0 = argv[2];
+        rho_n = argv[3];
+    } else if (argc == 4) {
+        n = argv[1];
+        rho_0 = argv[2];
+        rho_n = argv[3];
+        omega = argv[4];
+    }else if (argc == 5) {
+        n = argv[1];
+        rho_0 = argv[2];
+        rho_n = argv[3];
+        omega = argv[4];
+        interact = true;
+    }
+
+    // declare/allocate vectors
+    h = (rho_n-rho_0)/(n-1); //steplength
+    vec rho = linspace<vec> (rho_0, rho_n, n); //length-array
+    vec lambda = zeros<vec> (n); //eigenvalue-array
+
+    // allocate initial matrix and initial matrix of eigenvalues
+    mat A(n,n); //matrix
+    mat R(n,n); //eigenvalues
+
+    if (interact) {
+        // start solving for single electron
+        singular_electron_matrix(A,rho,h,n);
+    } else {
+        // start solving for two electrons
+        double_electron_matrix(A,rho, omega, h,n);
+    }
+
+    //solve eigenvectors and eigenvalues using jacobi's method
+    solve_jacobi(A, R, lambda, n);
+
+    return 0;
+} //END: main
+
 void singular_electron_matrix(mat &A, vec &rho, double h, int n){
     /* remake the matrix A to match a single electron with
      * length array rho of length n*/
@@ -251,35 +317,3 @@ int unit_known(){
     R.print("calculated solution for eigenvectors:");
     return 0;
 } //END:unit_known
-
-
-int main(int argc, char *argv[])
-{
-    // fetch cmd-line arguments
-    unit_known(); exit(0);
-
-    // declare variables
-    double h;
-    int n = 5; //size of array
-    double rho_0 = 0.0; //starting-point of length-array
-    double rho_n = 10.0; //end-point of length-array
-    h = (rho_n-rho_0)/(n-1); //steplength
-    vec rho = linspace<vec> (rho_0, rho_n, n); //length-array
-    vec lambda = zeros<vec> (n); //eigenvalue-array
-
-    // allocate initial matrix and initial matrix of eigenvalues
-    mat A(n,n); //matrix
-    mat R(n,n); //eigenvalues
-
-    // start solving for single electron
-    singular_electron_matrix(A,rho,h,n);
-
-    //solve eigenvectors and eigenvalues using jacobi's method
-    solve_jacobi(A, R, lambda, n);
-
-    // start solving for two electrons
-    //double_electron_matrix(A,rho,n);
-
-    return 0;
-} //END: main
-
