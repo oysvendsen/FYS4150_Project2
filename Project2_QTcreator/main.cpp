@@ -62,9 +62,6 @@ int main(int argc, char *argv[])
     //solve eigenvectors and eigenvalues using jacobi's method
     solve_jacobi(A, R, lambda, n);
 
-    lambda.print();
-    A.print();
-    exit(0);
     uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
 
     filename = "../data/test.dat";
@@ -106,10 +103,7 @@ void solve_jacobi( mat &A, mat &eigvec, vec &eigval, int n){
     while(iterations<max_iter && sym && orth && eps_iter>eps_tol){
         //perform one jacobi rotation B=S^TAS
         jacobi_rotation(A, eigvec, k, l, n);
-        cout << k
-             << " "
-             << l
-             << endl;
+
         //advance iterations, symmetry, orthogonality, epsilon, max-indeces(k,l)
         sym = unit_symmetry(A, n, 1e-10);
         orth = unit_orthogonality(eigvec, n, 1e-10);
@@ -242,6 +236,7 @@ double find_largest(mat& A, int& max_i, int& max_j, int n){
             if (A_val >= max){
                 max_i = i;
                 max_j = j;
+                max = A_val;
             }
         }
     }
