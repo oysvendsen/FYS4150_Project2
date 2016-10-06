@@ -21,9 +21,9 @@ def get_arrays(filename):
     eigvals = []
     eigvecs = []
     #sort out columns as arrays in dictionary
-    for line in np.arange(len(data_splat)):
+    for line in np.arange(len(data_splat) - 1):
         if line % 2 == 0:
-            eigvals.append(np.float64(data_splat[line][0]))
+            eigvals.append(np.float64(data_splat[line]))
         else:
             eigvecs.append(np.array(data_splat[line].split(', ')).astype(np.float64))
     data_dict = {'lambda': np.array(eigvals), 'eigvecs': np.array(eigvecs)}
@@ -53,23 +53,30 @@ def write2file(outstring,
     return outstring
 
 
-#print get_arrays(filename="data/test.dat", length=3)
 
 eig_tol     = 1e-4
 eig_known   = np.array([3.0, 7.0, 11.0])
+rho0        = 0.
 rho_n       = 5. # tbd
-n           = 500 # tbd
+n           = 200 # tbd
 write2file("New data-file", append=False)
 
-rho0        = 0.
-omega       = np.array([0.01, 0.5, 1., 5.]).
+omegas      = np.array([0.01, 0.5, 1., 5.]).
+rho = np.linspace(rho0, rho_n, n)
 
-    # still need the non-interacting eigvectors, made in a previous run
+# still need old eigs to compare with
+os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
+# still need the non-interacting eigvectors
 old_data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d_omega=%d.dat" % ( rho_n, n))
 non_eigvecs = old_data['eigvecs'] # non-interacting eigvecs
 
 # ./main.cpp n rho_N rho_N omega 'interact'
 #run program "Project2_QTcreator" for these cases.
+
+# for end plot between omegas
+between = pl.figure()
+between.plot(rho, non_eigvecs[0], label='Non-interacting')
+
 for omega in omegas:
     #run program with rho=0,..,rho_n with n steps for a non-interacting case.
     os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f %f %f %s" % (n, rho0, rho_n, omega, "interact"))
@@ -99,16 +106,27 @@ for omega in omegas:
             print write2file("lambda_%d = %e"%(i,eigvals[i]))
 
     # plots eigenvectors relevant to current omega
-    pl.figure()
-    rho = np.linspace(rho0, rho_n, n)
+    compare = pl.figure()
     eigvecs = data['eigvecs']
+    
+    # plots comparison plot with non interacting eigvecs
     for k in range(len(eigvecs)):
-        pl.plot(rho, non_eigvecs[k], label=r'Non-interact. eigvec. $v_%d$' % k)
-        pl.plot(rho, eigvecs[k], label=r'Interact. eigvec. $v_%d$' % k)
+        compare.plot(rho, non_eigvecs[k], label=r'Non-interact. eigvec. $v_%d$' % k)
+        compare.plot(rho, eigvecs[k], label=r'Interact. eigvec. $v_%d$' % k)
 
-    pl.title(r'Non-interactive- vs Interactive Eigenvectors for $\omega_r$ = %.2f' % omega)
-    pl.xlabel(r'$\rho$')
-    pl.ylabel(r'$v$')
-    pl.legend(loc='best')
-    pl.savefig('interacting_eig_plot_omega=%.2f' % omega, dpi=300)
+    compare.title(r'Non-interactive- vs Interactive Eigenvectors for $\omega_r$ = %.2f' % omega)
+    compare.xlabel(r'$\rho$')
+    compare.ylabel(r'$v$')
+    compare.legend(loc='best')
+    compare.savefig('interacting_eigvecs_at_omega=%.2f.png' % omega*1000, dpi=300)
+
+    # plots the comparison plots of interacting eigenvectors
+    between.plot(rho, eigvecs[0], label=r'$\omega_r$ = %.2f' % omega )
+between.title(r'Comparison plot between interacting $\omega_r$ variants and non-interactive eigenvectors')
+between.xlabel(r'$\rho$')
+between.ylabel(r'$v$')
+between.legend(loc='best')
+between.savefig('eigvecs_vs_each_other.png')
+
+
 

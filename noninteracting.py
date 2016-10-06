@@ -81,7 +81,6 @@ def test_rhon_n_dependency(rho_n, n):
         for i in np.arange(3):
             print write2file("lambda_%d = %e"%(i,eigvals[i]))
 
-#print get_arrays(filename="data/test.dat", length=3)
 
 eig_tol = 1e-4
 eig_known = np.array([3.0, 7.0, 11.0])
