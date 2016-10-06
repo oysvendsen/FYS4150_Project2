@@ -302,9 +302,16 @@ The result is a program that finds the eigenvalues and eigenvectors, within a se
 
 \section{Results}
 \section{Explanation of programs}
-For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, the writing of mandatory \verb|C++| script was initiated.
 
-The main body of the program begins by creating and collecting necessary variables for the algebra, such as $h$, the $\rho$ length array, and empty vectors and matrices for the rotation itself, and eigenvalues to be transformed later.
+
+\subsection{Unit tests} \label{sec:unit tests}
+%TODO
+%orthogonality
+%symmetry
+\subsection{main.cpp}
+For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, writing of the mandatory \verb|C++| script was initiated, which is now being initialized from a \verb|Python| script that runs through the necessary combinations of $\rho_N$, $\omega$, and $N$ in two forms - a non-interacting electron case, and a double interacting electron case.
+
+The main body of the program begins by creating and collecting necessary variables for the algebra, such as $h$, the $\rho$ length array, empty vectors and matrices for the rotation itself, and eigenvalues to be transformed later.
 
 The program then gives form to the matrix belonging to either a singular case or double electron case; pure number insertion in both cases dependant on the shape of the matrix in both cases, with values depending on what physical case is being initialized.
 
@@ -314,13 +321,13 @@ The initial matrix' symmetry, and its eigenvectors' orthogonality, is run throug
 
 This is when the rotation itself begins, the method of which also is explained in sections \ref{sec:jac} and \ref{sec:method}. As long as the aforementioned sum is less than our tolerance; the symmetry of the matrix, and the orthogonality of its eigenvectors are true; the script will loop to continually rotate the matrix $\hat{A}$ from its initial state and into a diagonal matrix.
 
-When this process is finalized, the resulting matrix data is written to a data file, and subsequently plotted using \verb|Python| to produce a plot of the eigenvalues' properties.
+All the while this process goes on and on, another matrix $\hat{R}$, which is initialized as an identity matrix - a completely orthogonal set of vectors, is also rotated in parallell with the exact same operations as $\hat{A}$ is exposed to. When $\hat{A}$ is done being rotated, the finalized diagonal elements provide the eigenvalues for the system, and every eigenvalue at a certain column in $\hat{A}_i$ then corresponds with the eigenvector expressed by the corresponding column in $\hat{R}_i$.
 
-\subsection{Unit tests} \label{sec:unit tests}
-%TODO
-%orthogonality
-%symmetry
-\subsection{main.cpp}
+The eigenvalues' columns in $\hat{A}$ are then sorted by way of Armadillo functionality in such a way that the eigenvector column elements of $\hat{R}$ are moved in the same pattern, and the three lowest eigenvalues with their corresponding eigenvectors are then written to a data file.
+
+\subsection{Python}
+These are subsequently extracted into the \verb|Python| script that main.cpp was initiated from, for storage and a few bits of utilization; for instance checking if the eigenvalues pass a tolerance test compared with analytical values, not to mention the plots that are made for comparisons between the different values of $\rho_N$, $\omega$, and $N$.
+
 \section{Conclusion and discussion}
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
