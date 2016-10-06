@@ -283,8 +283,23 @@ Suppose there is a basis of eigenvectors $\vec{v}_i\ , i = 0,\dots,N$ that are o
 By defintion, $S^T$ and $S$ are unitary matrices. So to test for conservation of orthogonality of eigenvectors for every iteration of the rotation transformation, the same rotations that are performed unto the iterative matrices of $\hat{A}$, will have to be performed on the iterative eigenvectors at every step of the total rotation as well.
 
 This makes for a good test at every iteration to test that the rotation is preserving orthogonality.
+
 \section{Method} \label{sec:method}
-%TODO	
+Jacobi's method is based on a series of rotations, that slowly eliminate all off-diagonal elements. 
+
+This method, explained in section \ref{sec:jac}, will be implemented numerically by performing many such rotations. One rotation sets two values to zero and at the same time changes the values of all the elements in thos two rows and columns. For an example, see section \ref{sec:unit tests}. Since all elements of two columns and two rows change when two off-diagonal elements are set to zero, there is no way of knowing how many rotations are needed to get all off-diagonal elements small enough.
+
+However, by picking the rotations to occur on the largest element each time,
+the other elements of those rows and columns can never grow larger then the value of the largest value. Since the largest value is now set zero, the largest off-diagonal element will decrease each rotation, thusly making this method converge on a diagonal matrix. 
+
+When this method finally converges the matrix left is a diagonal matrix, and looking back at the original matrix equation \eqref{eq:matrix} these diagonal values will also be the eigenvalues of the system of equations.
+
+Numerically the matrix is said to have converged when $\varepsilon = \sum_{i=0}^N \sum_{j\neq i} a_{i,j}^2$ is less then $10^{-8}$, in order to account for numerical precision. \\
+
+Thus the eigenvalues are found, but the eigenvectors cannot be read from this matrix alone. The eigenvectors are found by starting with a orthonormal basis of vectors(the simplest in the unity matrix) and perform the exact same rotations of this basis as the matrix A.
+
+The result is a program that finds the eigenvalues and eigenvectors, within a set tolerance, of a matrix that is quadratic and symmetric.
+
 \section{Results}
 \section{Explanation of programs}
 For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, the writing of mandatory \verb|C++| script was initiated.
@@ -301,7 +316,7 @@ This is when the rotation itself begins, the method of which also is explained i
 
 When this process is finalized, the resulting matrix data is written to a data file, and subsequently plotted using \verb|Python| to produce a plot of the eigenvalues' properties.
 
-\subsection{Unit tests}
+\subsection{Unit tests} \label{sec:unit tests}
 %TODO
 %orthogonality
 %symmetry
