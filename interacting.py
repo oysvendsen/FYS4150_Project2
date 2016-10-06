@@ -66,17 +66,17 @@ rho         = np.linspace(rho0, rho_n, n)
 # still need old eigs to compare with
 os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
 # still need the non-interacting eigvectors
-old_data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d_omega=%d.dat" % ( rho_n, n))
+old_data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat" % ( rho_n, n))
 non_eigvecs = old_data['eigvecs'] # non-interacting eigvecs
 ground_eigvecs = np.zeros((4, n))
 # ./main.cpp n rho_N rho_N omega 'interact'
 #run program "Project2_QTcreator" for these cases.
 
-for omega in omegas:
+for r,omega in enumerate(omegas):
     #run program with rho=0,..,rho_n with n steps for a non-interacting case.
     os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f %f %f %s" % (n, rho0, rho_n, omega, "interact"))
     #fetch arrays written to "data/project2_noninteracting_rho0=0_rhoN=%d_n=%d.dat"%(rho_n,n)
-    data = get_arrays( filename="data/project2_interacting_rho0=0_rhoN=%d_N=%d_omega=%d.dat" % (rho_n, n, (omega/float(1000)) ) )
+    data = get_arrays( filename="data/project2_interacting_rho0=0_rhoN=%d_N=%d_omega=%d.dat" % (rho_n, n, int(omega*float(1000)) ) )
 
     #is eigenvalues withing tolerance?
     eigvals = data['lambda']
@@ -90,7 +90,7 @@ for omega in omegas:
             within_tol.append(False)
 
     #store result in data-file.
-    print write2file("rho_0=%f, rho_N=%f, n=%f"%(rho_0, rho_n, n))
+    print write2file("rho_0=%f, rho_N=%f, n=%f"%(rho0, rho_n, n))
     if within_tol:
         print write2file("all three eigenvalues WITHIN tolerance")
         for i in np.arange(3):

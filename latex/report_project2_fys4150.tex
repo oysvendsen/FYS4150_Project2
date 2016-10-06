@@ -344,7 +344,7 @@ The result is a program that finds the eigenvalues and eigenvectors, within a se
 
 This algorithm can also handle two electrons in a potential field. For example can the eigenvalues of the two electrons in section \ref{sec:2electrons} can be numerically calculated by switching $\rho^2$ with $\omega_r^2\rho^2 + \frac{1}{\rho}$ in the matrix A.
 
-\section{Results}
+\section{Results} \label{sec:results}
 Dataoutput from determining the $\rho_N$ and N dependencies.
 \lstinputlisting{../pythondata/noninteracting.dat}
 
@@ -465,7 +465,7 @@ The main body of the program begins by creating and collecting necessary variabl
 
 \section{Conclusion and discussion}
 %one electron
-%TODO data from one electron
+For one electron the three lowest eigenvalues should be 3,7 and 11. As one can tell from the data-set in section \ref{sec:results} the results are very close for large values of n. However, even at n=400 we only got the accuracy of our eigenvalues
 %rhoN dependency
 %N dependency
 %two electrons
@@ -474,9 +474,6 @@ The main body of the program begins by creating and collecting necessary variabl
 
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
-
-
-We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
 
 \begin{thebibliography}{9}
 \bibitem{example_code}
@@ -496,7 +493,9 @@ We got a lot of inspiration from the example-code in \cite[web-site]{example_cod
 Algebra methods, 
 	viewed $27^{th}$ September 2016, 
 	\url{http://compphysics.github.io/ComputationalPhysics/doc/pub/linalg/pdf/linalg-print.pdf} p.12. 
-
 \end{thebibliography}
+
+We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
+
 \end{document}
 
