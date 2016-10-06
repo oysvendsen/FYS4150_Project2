@@ -53,7 +53,6 @@ def write2file(outstring,
     return outstring
 
 
-
 eig_tol     = 1e-4
 eig_known   = np.array([3.0, 7.0, 11.0])
 rho0        = 0.
