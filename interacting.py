@@ -31,7 +31,7 @@ def get_arrays(filename):
     return data_dict
 
 def write2file(outstring,
-               filename=curdir+"/data/interacting.dat",
+               filename=os.getcwd()+"/data/interacting.dat",
                append=True):
     """
     If 'append' is True:
@@ -128,5 +128,3 @@ pl.xlabel(r'$\rho$')
 pl.ylabel(r'$\phi(\rho)$')
 pl.legend(loc='best')
 pl.savefig('eigvecs_vs_each_other.png')
-
-
