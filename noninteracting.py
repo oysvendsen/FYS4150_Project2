@@ -53,46 +53,48 @@ def write2file(outstring,
             outfile.write(outstring + "\n")
     return outstring
 
+def test_rhon_n_dependency(rho_n, n):
+    #run program with rho=0,..,rho_n with n steps for a non-interacting case.
+    os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
+    #fetch arrays written to "data/project2_noninteracting_rho0=0_rhoN=%d_n=%d.dat"%(rho_n,n)
+    data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat"%(rho_n,n))
+
+    #is eigenvalues withing tolerance?
+    eigvals = data['lambda']
+    within_tol = []
+        
+    #test the value of the three lowest eigenvalues
+    for i in np.arange(3):
+        if abs(eigvals[i] - eig_known[i]) < eig_tol:
+            within_tol.append(True)
+        else:
+            within_tol.append(False)
+
+    #store result in data-file.
+    print write2file("rho_N=%f, n=%f"%(rho_n, n))
+    if any(within_tol):
+        print write2file("all three eigenvalues WITHIN tolerance")
+        for i in np.arange(3):
+            print write2file("lambda_%d = %e"%(i,eigvals[i]))
+    else:
+        print write2file("all three eigenvalues OUTSIDE tolerance")
+        for i in np.arange(3):
+            print write2file("lambda_%d = %e"%(i,eigvals[i]))
 
 #print get_arrays(filename="data/test.dat", length=3)
 
 eig_tol = 1e-4
 eig_known = np.array([3.0, 7.0, 11.0])
-rho_N_range = np.array([5, 10.0, 50])
-N_range = np.array([50, 100, 150, 200,])
+rho_N_range = np.array([5, 7, 10])
+N_range = np.array([50, 100, 200, 300, 400])
 write2file("New data-file", append=False)
 
 # ./main.cpp n rho_N
 #run program "Project2_QTcreator" for these cases.
 for rho_n in rho_N_range:
-    for n in N_range:
-        #run program with rho=0,..,rho_n with n steps for a non-interacting case.
-        os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
-        #fetch arrays written to "data/project2_noninteracting_rho0=0_rhoN=%d_n=%d.dat"%(rho_n,n)
-        data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat"%(rho_n,n))
-
-        #is eigenvalues withing tolerance?
-        eigvals = data['lambda']
-        within_tol = []
-        
-        #test the value of the three lowest eigenvalues
-        for i in np.arange(3):
-            if abs(eigvals[i] - eig_known[i]) < eig_tol:
-                within_tol.append(True)
-            else:
-                within_tol.append(False)
-
-        #store result in data-file.
-        print write2file("rho_N=%f, n=%f"%(rho_n, n))
-        if any(within_tol):
-            print write2file("all three eigenvalues WITHIN tolerance")
-            for i in np.arange(3):
-                print write2file("lambda_%d = %e"%(i,eigvals[i]))
-        else:
-            print write2file("all three eigenvalues OUTSIDE tolerance")
-            for i in np.arange(3):
-                print write2file("lambda_%d = %e"%(i,eigvals[i]))
-
+    test_rhon_n_dependency(rho_n, 200)
+for n in N_range:
+    test_rhon_n_dependency(8.0, n)
 # plots eigenvectors relevant to current omega
 pl.figure()
 rho = np.linspace(0, rho_n, n)
