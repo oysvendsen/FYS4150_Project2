@@ -314,60 +314,6 @@ Thus the eigenvalues are found, but the eigenvectors cannot be read from this ma
 
 The result is a program that finds the eigenvalues and eigenvectors, within a set tolerance, of a matrix that is quadratic and symmetric.
 
-\section{Results}
-\begin{figure}[H]
-\center
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=50.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 50$.}\label{fig:eigvecs-non-interact-1-50}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=100.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 100$.}\label{fig:eigvecs-non-interact-1-100}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=300.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 300$.}\label{fig:eigvecs-non-interact-10-300}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=400.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 400$.}\label{fig:eigvecs-non-interact-10-400}
-	\end{subfigure}
-\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
-\end{subfigure}
-	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
-\end{figure}
-\begin{figure}[H]
-\center
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=10.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.01$.}\label{fig:eigvecs-interact10}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=500.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.5$.}\label{fig:eigvecs-interact500}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=1000.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 1$.}\label{fig:eigvecs-interact1000}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=5000.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
-	\end{subfigure}
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
-		\caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
-	\end{subfigure}
-	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
-\end{figure}
-
 \section{Explanation of programs}
 \subsection{Unit tests} \label{sec:unit tests}
 %TODO
@@ -396,6 +342,63 @@ The eigenvalues' columns in $\hat{A}$ are then sorted by way of Armadillo functi
 
 \subsection{Python}
 These are subsequently extracted into the \verb|Python| script that main.cpp was initiated from, for storage and a few bits of utilization; for instance checking if the eigenvalues pass a tolerance test compared with analytical values, not to mention the plots that are made for comparisons between the different values of $\rho_N$, $\omega$, and $N$.
+
+\section{Results}
+For the non-interacting cases of the numerical eigenvector extraction, these plots were yielded by use of the scripts.
+\begin{figure}[H]
+\center
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=50.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 50$.}\label{fig:eigvecs-non-interact-1-50}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=100.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 100$.}\label{fig:eigvecs-non-interact-1-100}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=300.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 300$.}\label{fig:eigvecs-non-interact-10-300}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=400.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 400$.}\label{fig:eigvecs-non-interact-10-400}
+	\end{subfigure}
+\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
+\end{subfigure}
+	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
+\end{figure}
+For the interacting cases of the numerical eigenvector extraction, these plots were yielded by use of the scripts.
+\begin{figure}[H]
+\center
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=10.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.01$.}\label{fig:eigvecs-interact10}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=500.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.5$.}\label{fig:eigvecs-interact500}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=1000.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 1$.}\label{fig:eigvecs-interact1000}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=5000.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
+		\caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
+	\end{subfigure}
+	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
+\end{figure}
+
 
 \section{Conclusion and discussion}
 \section{Appendix - Github} \label{section:github}
