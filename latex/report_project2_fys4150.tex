@@ -315,14 +315,69 @@ Thus the eigenvalues are found, but the eigenvectors cannot be read from this ma
 The result is a program that finds the eigenvalues and eigenvectors, within a set tolerance, of a matrix that is quadratic and symmetric.
 
 \section{Results}
-
-
-
+\begin{figure}[H]
+\center
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=50.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 50$.}\label{fig:eigvecs-non-interact-1-50}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=100.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 100$.}\label{fig:eigvecs-non-interact-1-100}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=300.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 300$.}\label{fig:eigvecs-non-interact-10-300}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=400.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 400$.}\label{fig:eigvecs-non-interact-10-400}
+	\end{subfigure}
+\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
+		\caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
+\end{subfigure}
+	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
+\end{figure}
+\begin{figure}[H]
+\center
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=10.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.01$.}\label{fig:eigvecs-interact10}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=500.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.5$.}\label{fig:eigvecs-interact500}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=1000.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 1$.}\label{fig:eigvecs-interact1000}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=5000.png}
+		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.45\textwidth}
+		\includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
+		\caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
+	\end{subfigure}
+	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
+\end{figure}
 
 \section{Explanation of programs}
-For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, the writing of mandatory \verb|C++| script was initiated.
+\subsection{Unit tests} \label{sec:unit tests}
+%TODO
+%orthogonality
+%symmetry
 
-The main body of the program begins by creating and collecting necessary variables for the algebra, such as $h$, the $\rho$ length array, and empty vectors and matrices for the rotation itself, and eigenvalues to be transformed later.
+\subsection{main.cpp}
+For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, writing of the mandatory \verb|C++| script was initiated, which is now being initialized from a \verb|Python| script that runs through the necessary combinations of $\rho_N$, $\omega$, and $N$ in two forms - a non-interacting electron case, and a double interacting electron case.
+
+The main body of the program begins by creating and collecting necessary variables for the algebra, such as $h$, the $\rho$ length array, empty vectors and matrices for the rotation itself, and eigenvalues to be transformed later.
 
 The program then gives form to the matrix belonging to either a singular case or double electron case; pure number insertion in both cases dependant on the shape of the matrix in both cases, with values depending on what physical case is being initialized.
 
@@ -334,16 +389,14 @@ This is when the rotation itself begins, the method of which also is explained i
 
 When this process is finalized, the resulting matrix data is written to a data file, and subsequently plotted using \verb|Python| to produce a plot of the eigenvalues' properties.
 
-<<<<<<< HEAD
-\subsection{Unit tests} \label{sec:unit tests}
-%TODO
-%orthogonality
-%symmetry
-\subsection{main.cpp}
-=======
 
+All the while this process goes on and on, another matrix $\hat{R}$, which is initialized as an identity matrix - a completely orthogonal set of vectors, is also rotated in parallell with the exact same operations as $\hat{A}$ is exposed to. When $\hat{A}$ is done being rotated, the finalized diagonal elements provide the eigenvalues for the system, and every eigenvalue at a certain column in $\hat{A}_i$ then corresponds with the eigenvector expressed by the corresponding column in $\hat{R}_i$.
 
->>>>>>> c123ad99a0481bd66d524b8d4fdde78af4bf8ecc
+The eigenvalues' columns in $\hat{A}$ are then sorted by way of Armadillo functionality in such a way that the eigenvector column elements of $\hat{R}$ are moved in the same pattern, and the three lowest eigenvalues with their corresponding eigenvectors are then written to a data file.
+
+\subsection{Python}
+These are subsequently extracted into the \verb|Python| script that main.cpp was initiated from, for storage and a few bits of utilization; for instance checking if the eigenvalues pass a tolerance test compared with analytical values, not to mention the plots that are made for comparisons between the different values of $\rho_N$, $\omega$, and $N$.
+
 \section{Conclusion and discussion}
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
