@@ -16,7 +16,6 @@ def get_arrays(filename, length):
     with open(filename, 'r') as infile:
         data = infile.read()
     #rewrite data to nested list
-    
     data_splat = data.split('\n')
 
     eigvals = []
@@ -27,7 +26,7 @@ def get_arrays(filename, length):
             eigvals.append(np.float64(data_splat[line][0]))
         else:
             eigvecs.append(pl.array(data_splat[line].split(', ')).astype(np.float64))
-    data_dict = {'lambdas': np.array(eigvals), 'eigvecs': np.array(eigvecs)}
+    data_dict = {'lambda': np.array(eigvals), 'eigvecs': np.array(eigvecs)}
 
     return data_dict
 
