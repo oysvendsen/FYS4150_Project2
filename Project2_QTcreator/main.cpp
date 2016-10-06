@@ -64,8 +64,12 @@ int main(int argc, char *argv[])
 
     uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
 
-    filename = "../data/test.dat";
-    //if (interact) {filename = "../data/noninteract_project2_.dat"} else {filename = "../data/interact_project2_.dat";
+    //filename = "../data/test.dat";
+    if (interact) {
+        filename = "../data/noninteract_project2_.dat";
+    } else {
+        filename = "../data/interact_project2_.dat";
+    }
     ofstream outfile;
     outfile.open(filename, std::ofstream::out);
     for (int i=0; i<3; i++){
@@ -105,8 +109,8 @@ void solve_jacobi( mat &A, mat &eigvec, vec &eigval, int n){
         jacobi_rotation(A, eigvec, k, l, n);
 
         //advance iterations, symmetry, orthogonality, epsilon, max-indeces(k,l)
-        sym = unit_symmetry(A, n, 1e-10);
-        orth = unit_orthogonality(eigvec, n, 1e-10);
+        //sym = unit_symmetry(A, n, 1e-10);
+        //orth = unit_orthogonality(eigvec, n, 1e-10);
         eps_iter = find_largest(A, k, l, n);
         iterations++;
     }
