@@ -23,8 +23,7 @@ int main(int argc, char *argv[])
 {
     //unit tests
     //unit_known();
-    unit_known_arma();
-    exit(0);
+    //unit_known_arma();
     //declare variables
     double h; //step-length,
     double rho_0 = 0.0; //starting point of array
@@ -357,40 +356,23 @@ int unit_known_arma() {
     double val, tol;
     int n = 3;
     tol = 1e-10;
-    //vec matrix_values = randu(4,4);
-    /*
-     * mat A_test(4,4);
-    mat A_arma(4,4);
-    for (int i=0; i<4; i++){
-        for (int j=i; j<4; j++){
-            val = matrix_values(i,j);
-            A_test(i,j) = val;
-            A_test(j,i) = val;
-            A_arma(i,j) = val;
-            A_arma(j,i) = val;
-        }
-    }
-    */
-    mat A_test = {{1,2,3}, {2,3,4}, {3,4,1}};
+    mat A_test = {{2,-1,0},{-1, 2,-1},{0,-1,2}};
     mat A_arma = A_test;
-    mat R_test(3,3);
-    mat R_arma(3,3);
-    vec lambda_test(3);
-    vec lambda_test_sorted(3);
-    vec lambda_arma(3);
+    mat R_test(n,n);
+    vec lambda_test(n);
+    vec lambda_test_sorted(n);
+    vec lambda_arma(n);
 
-    solve_jacobi(A_test, R_test, lambda_test, 3);
+    solve_jacobi(A_test, R_test, lambda_test, n);
     //sort eigenvalues
     uvec indeces_sorted = sort_index(lambda_test); // array of indeces of lambda when sorted
-    for (int i=0; i<3; i++){
+    for (int i=0; i<n; i++){
         int sort_i = indeces_sorted(i);
         lambda_test_sorted(i) = lambda_test(sort_i);
     }
-    eig_sym(lambda_arma, R_arma, A_arma);
-    lambda_arma.print();
-    lambda_test.print();
-    for (int i=0; i<3; i++){
-        if (abs(lambda_arma(i) - lambda_test(i)) > tol){
+    eig_sym(lambda_arma, A_arma);
+    for (int i=0; i<n; i++){
+        if (abs(lambda_arma(i) - lambda_test_sorted(i)) > tol){
             cout << "unit test 'unit_known_arma' failed" << endl;
             return 1;
         }
