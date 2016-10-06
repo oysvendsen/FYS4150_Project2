@@ -16,13 +16,12 @@ def get_arrays(filename):
     with open(filename, 'r') as infile:
         data = infile.read()
     #rewrite data to nested list
-    
     data_splat = data.split('\n')
 
     eigvals = []
     eigvecs = []
     #sort out columns as arrays in dictionary
-    for line in np.range(len(data_splat)):
+    for line in np.arange(len(data_splat)):
         if line % 2 == 0:
             eigvals.append(np.float64(data_splat[line][0]))
         else:
