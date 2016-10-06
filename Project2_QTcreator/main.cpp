@@ -78,13 +78,14 @@ int main(int argc, char *argv[])
         filename += "_noninteracting";
     }
     filename += "_rho0=" + to_string( (int) rho_0 );
-    filename += "_rho_N=" + to_string( (int) rho_n);
+    filename += "_rhoN=" + to_string( (int) rho_n);
     filename += "_N=" + to_string( (int)n);
     if (omega != 0) {
         filename += "_omega=" + to_string( (int) (1000.0*omega));
     }
     filename += ".dat";
 
+    cout << "name of datafile: " << filename << endl;
     ofstream outfile;
     outfile.open(filename, std::ofstream::out);
 

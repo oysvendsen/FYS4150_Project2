@@ -11,7 +11,7 @@ three values of rho_N, and several values of N.
 When are they sufficently close to known solution?
 """
 
-def get_arrays(filename, length):
+def get_arrays(filename):
     #fetch data from file
     with open(filename, 'r') as infile:
         data = infile.read()
@@ -32,7 +32,7 @@ def get_arrays(filename, length):
     return data_dict
 
 def write2file(outstring,
-               filename=curdir+"/data/noninteracting.dat",
+               filename=os.getcwd()+"/data/noninteracting.dat",
                append=True):
     """
     If 'append' is True:
@@ -68,8 +68,10 @@ for rho_n in rho_N_range:
     for n in N_range:
         #run program with rho=0,..,rho_n with n steps for a non-interacting case.
         os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
+        #print n
+        #sys.exit()
         #fetch arrays written to "data/project2_noninteracting_rho0=0_rhoN=%d_n=%d.dat"%(rho_n,n)
-        data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat"%(rho_n,n), length=n+1)
+        data = get_arrays(filename="/data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat"%(rho_n,n))
 
         #is eigenvalues withing tolerance?
         eigvals = data['lambda']
