@@ -465,9 +465,11 @@ The main body of the program begins by creating and collecting necessary variabl
 
 \section{Conclusion and discussion}
 %one electron
-For one electron the three lowest eigenvalues should be 3,7 and 11. As one can tell from the data-set in section \ref{sec:results} the results are very close for large values of n. However, even at n=400 we only got the accuracy of our eigenvalues
+For one electron the three lowest eigenvalues should be 3, 7 and 11. As one can tell from the data-set in section \ref{sec:results} the results are very close for large values of n. However, even at n=400 we only got the accuracy of our eigenvalues down to two leading digits. If we want the accuracy to four leading digits the number of grid-points must be alot higher then 400, and out of the reach of our small laptops.
 %rhoN dependency
+From the very same data-set it becomes clear that there is a dependency on $\rho_N$. Consider this if $\rho_N$ is to small then the wavefunction will not be significantly close enough to zero, meaning that the eigenvalues will represent an incomplet wavefunction. This becomes the wrong eigenvalue. On the other hand, if $\rho_N$ becomes to large the steplength increases, and if the steplength increases then the accuracy of the "integral" is lowered.
 %N dependency
+Another fact that emerges from the dataset is the dependency on N. Considering the equation, a matrix of size 3 should be able to give you three eigenvalues, but these will be wrong. In order to find the real eigenvalues, and real eigenvectors the system must rotate many times, this is achieved by incerasing the size of A.
 %two electrons
 %plots for ground states (one, two, three bumps)
 %plots against  

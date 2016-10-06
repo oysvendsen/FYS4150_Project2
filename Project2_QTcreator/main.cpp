@@ -10,7 +10,7 @@ void solve_jacobi( mat& A, mat& eigvec, vec& eigval, int n );
 void jacobi_rotation(mat& A, mat& R, int k, int l, int n);
 
 void singular_electron_matrix(mat& A, vec&rho, double h, int n);
-void double_electron_matrix(mat& A, vec&rho, double h, int n);
+void double_electron_matrix(mat& A, vec&rho, double omega_r, double h, int n);
 double find_largest(mat& A, int& max_i, int& max_j, int n);
 int kronicker(int i,int j);
 
@@ -66,8 +66,16 @@ int main(int argc, char *argv[])
     mat A(n,n); //matrix
     mat R(n,n); //eigenvalues
 
-    // start solving for single electron
-    singular_electron_matrix(A,rho,h,n);
+    /*
+    if (interact) {
+        //use double electron if interact is true
+        double_electron_matrix(A,rho,omega,h,n);
+    } else {
+        //use one electron is not interating
+        singular_electron_matrix(A,rho,h,n);
+    }
+    */
+    double_electron_matrix(A,rho,h,n);
 
     //solve eigenvectors and eigenvalues using jacobi's method
     solve_jacobi(A, R, lambda, n);
