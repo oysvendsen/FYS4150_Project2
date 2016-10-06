@@ -23,7 +23,9 @@ int main(int argc, char *argv[])
 {
     //unit tests
     //unit_known();
-    //unit_known_arma();
+    unit_known_arma();
+    exit(0);
+
     //declare variables
     double h; //step-length,
     double rho_0 = 0.0; //starting point of array
@@ -70,7 +72,7 @@ int main(int argc, char *argv[])
     solve_jacobi(A, R, lambda, n);
 
     //find data-filename
-    string filename = "../data/project2";
+    string filename = "/home/oyvind/githubfolder/fys4150_h16/project2/data/project2";
     //filename += "_test.dat";
     if (interact) {
         filename += "_interacting";
@@ -87,17 +89,17 @@ int main(int argc, char *argv[])
 
     cout << "name of datafile: " << filename << endl;
     ofstream outfile;
-    outfile.open(filename, std::ofstream::out);
-
+    outfile.open(filename);
+    cout << "is datafile open? " << outfile.is_open() << endl;
     //sort eigenvalues
     uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
     for (int i=0; i<3; i++){
         int sort_i = indeces_sorted(i);
         outfile << lambda(sort_i) << endl;
-        for (int j=0; j<n; j++){
+        for (int j=0; j<n-1; j++){
             outfile << R(j,sort_i) << ", ";
         }
-        outfile << endl;
+        outfile << R(n-1,sort_i) << endl;
     }
     outfile.close();
 
@@ -350,6 +352,39 @@ int unit_known(){
 } //END:unit_known
 
 int unit_known_arma() {
+    /* This unit test will check the compute the eigenvalues and eigenvectors
+     * of a 4x4-matrix using the integrated jacobi-solver.
+     * Thereafter the values will be checked against armadillos eigsys-function.
+     */
+    double val, tol;
+    int n = 3;
+    tol = 1e-10;
+    mat A_test = {{2,-1,0},{-1, 2,-1},{0,-1,2}};
+    mat A_arma = A_test;
+    mat R_test(n,n);
+    vec lambda_test(n);
+    vec lambda_test_sorted(n);
+    vec lambda_arma(n);
+
+    solve_jacobi(A_test, R_test, lambda_test, n);
+    //sort eigenvalues
+    uvec indeces_sorted = sort_index(lambda_test); // array of indeces of lambda when sorted
+    for (int i=0; i<n; i++){
+        int sort_i = indeces_sorted(i);
+        lambda_test_sorted(i) = lambda_test(sort_i);
+    }
+    eig_sym(lambda_arma, A_arma);
+    for (int i=0; i<n; i++){
+        if (abs(lambda_arma(i) - lambda_test_sorted(i)) > tol){
+            cout << "unit test 'unit_known_arma' failed" << endl;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+int unit_known_arma_n() {
     /* This unit test will check the compute the eigenvalues and eigenvectors
      * of a 4x4-matrix using the integrated jacobi-solver.
      * Thereafter the values will be checked against armadillos eigsys-function.
