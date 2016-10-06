@@ -85,8 +85,8 @@ def test_rhon_n_dependency(rho_n, n):
 
 eig_tol = 1e-4
 eig_known = np.array([3.0, 7.0, 11.0])
-rho_N_range = np.array([5, 7, 10])
-N_range = np.array([50, 100, 200, 300, 400])
+rho_N_range = np.array(range(1,15))
+N_range = np.array([50, 100, 200, 300])
 write2file("New data-file", append=False)
 
 # ./main.cpp n rho_N
@@ -94,7 +94,9 @@ write2file("New data-file", append=False)
 for rho_n in rho_N_range:
     test_rhon_n_dependency(rho_n, 200)
 for n in N_range:
-    test_rhon_n_dependency(8.0, n)
+    test_rhon_n_dependency(4.0, n)
+
+"""
 # plots eigenvectors relevant to current omega
 pl.figure()
 rho = np.linspace(0, rho_n, n)
@@ -107,3 +109,4 @@ pl.xlabel(r'$\rho$')
 pl.ylabel(r'$v$')
 pl.legend(loc='best')
 pl.savefig('non_interacting_eigvec_plot_rhoN=%d_N=%d' % (rho_n, n), dpi=300)
+"""
