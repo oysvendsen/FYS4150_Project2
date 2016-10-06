@@ -62,21 +62,17 @@ n           = 200 # tbd
 write2file("New data-file", append=False)
 
 omegas      = np.array([0.01, 0.5, 1., 5.])
-rho = np.linspace(rho0, rho_n, n)
+rho         = np.linspace(rho0, rho_n, n)
 
 # still need old eigs to compare with
 os.system("./build-Project2_QTcreator-Desktop_Qt_5_7_0_GCC_64bit-Release/Project2_QTcreator %d %f" % (n, rho_n))
 # still need the non-interacting eigvectors
 old_data = get_arrays(filename="data/project2_noninteracting_rho0=0_rhoN=%d_N=%d.dat" % ( rho_n, n))
 non_eigvecs = old_data['eigvecs'] # non-interacting eigvecs
-
+ground_eigvecs = np.zeros((4, n))
 # ./main.cpp n rho_N rho_N omega 'interact'
 #run program "Project2_QTcreator" for these cases.
 
-# for end plot between omegas
-pl.figure("allground")
-pl.hold(True); pl.grid(True)
-pl.plot(rho, non_eigvecs[0], label='Non-interacting')
 
 for r, omega in enumerate(omegas):
     #run program with rho=0,..,rho_n with n steps for a non-interacting case.
@@ -106,13 +102,13 @@ for r, omega in enumerate(omegas):
         for i in np.arange(3):
             print write2file("lambda_%d = %e"%(i,eigvals[i]))
 
+    eigvecs         = data['eigvecs']
+    ground_eigvecs[r]  = eigvecs[0]
     # plots eigenvectors relevant to current omega
-    pl.figure("interact%d"%r)
-    pl.hold(True); pl.grid(True)
-    eigvecs = data['eigvecs']
-    
+    pl.figure()
+    pl.grid(True)
     # plots comparison plot with non interacting eigvecs
-    for k in range(len(eigvecs)):
+    for k in np.arange(len(eigvecs)):
         pl.plot(rho, non_eigvecs[k], label=r'Non-interact. eigvec. $v_%d$' % k)
         pl.plot(rho, eigvecs[k], label=r'Interact. eigvec. $v_%d$' % k)
 
@@ -122,16 +118,18 @@ for r, omega in enumerate(omegas):
     pl.legend(loc='best')
     pl.savefig("interacting_eigvecs_at_omega=%d.png" %int(omega*1000), dpi=300)
 
-    # plots the comparison plots of interacting eigenvectors
-    pl.figure("allground")
-    pl.plot(rho, eigvecs[0], label=r'$\omega_r$ = %.2f' % omega )
+
+# plots the comparison plots of interacting eigenvectors
+pl.figure()
+pl.grid(True)
+pl.plot(rho, non_eigvecs[0], label='Non-interacting')
+for i in np.arange(len(ground_eigvecs)): 
+    pl.plot(rho, ground_eigvecs[i], label=r'Ground $v_0$ at $\omega_r$ = %.2f' % omega )
 
 pl.title(r'Comparison plot between interacting $\omega_r$ variants and non-interactive eigenvectors')
 pl.xlabel(r'$\rho$')
 pl.ylabel(r'$v$')
 pl.legend(loc='best')
 pl.savefig('eigvecs_vs_each_other.png')
-
-pl.show()
 
 
