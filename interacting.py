@@ -25,7 +25,7 @@ def get_arrays(filename):
         if line % 2 == 0:
             eigvals.append(np.float64(data_splat[line][0]))
         else:
-            eigvecs.append(pl.array(data_splat[line].split(', ')).astype(np.float64))
+            eigvecs.append(np.array(data_splat[line].split(', ')).astype(np.float64))
     data_dict = {'lambda': np.array(eigvals), 'eigvecs': np.array(eigvecs)}
 
     return data_dict
