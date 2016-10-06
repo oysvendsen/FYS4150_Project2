@@ -120,6 +120,12 @@
 \noindent
 \maketitle
 \vspace{10mm}
+
+\begin{figure}[H]
+	\centering	
+	\includegraphics[scale=0.7]{frontpage.png}
+\end{figure}
+
 \begin{abstract}
 \end{abstract}
 
@@ -269,7 +275,7 @@ Jacobi's method "rotates" two columns of matrix A in order to find a better, "mo
 \end{align*}
 Where $S^T$ rotates two columns in A, and S rotates them "back again". This leaves us with a matrix B that is "rotated" once, where two elements are "rotated" to zero. 
 %TODO
-\subsection{Orthogonality}
+\subsection{Orthogonality} \label{sec:orthogonality}
 As the matrix is being rotated by use of Jacobi's method, some properties of matrix $\hat{B}$ shall ideally remain the same as of matrix $\hat{A}$, specifically the eigenvectors of belonging to matrix eigenvalues of matrix $\hat{A}$ should remain intact after the transformation. This is true for unitary matrices as shown by the following elaboration.
 
 Suppose there is a basis of eigenvectors $\vec{v}_i\ , i = 0,\dots,N$ that are orthogonal, meaning 
@@ -446,3 +452,44 @@ Algebra methods,
 
 \end{thebibliography}
 \end{document}
+
+\subsection{Unit tests} \label{sec:unit tests}
+The c++-program 'main.cpp' has four unit tests that can be implemented to continously check that the mathematical properties of the program are upheld.
+The tests check symmetry of a matrix, orthogonality of eigenvectors, and three functions that have known solutions.
+\subsubsection{Symmetry}
+Symmetry is checked by measuring the difference squared between symmetric elements. This 'epsilon' is then summed for all off-diagonal elements and checked against a set tolerance.
+Since a matrix can have numerical error(it won't in our case but could in theory), the total accumulated error in symmetry must be smaller then a set tolerance(usually a magnitude of -10) to pass the unit test.
+\subsection{Orthogonality}
+Orthogonality, see section \ref{sec:orthogonality}, is checked by taking the matrix R of all eigenvectors and computing $R^TR = \eye$. This must be within some tolerance ofcourse, for the same reason as above.
+\subsection{Known 2x2-matrix}
+The solution to the equation 
+$$\begin{bmatrix}
+	2 & 1 \\ 1 & 2
+\end{bmatrix} \vec{v} = \lambda	 \vec{v} $$ 
+can easily be calculated by hand.
+With the eigenvalues 
+$\lamdba = 1 \Lambda 3$ 
+with the corresponding eigenvectors 
+$\vec{v} = \begin{bmatrix}
+1 \\ -1
+\end{bmatrix} \Lambda \begin{bmatrix}
+1 \\ 1
+\end{bmatrix}$. 
+This can be used to test the Jacobi algorithm, by performing it on the matrix, and checking that the result from the method matches the analytical results.
+
+Note that the eigenvectors would not be unitary, but as long as the eigenvectors are proprtional to the analytical solutions the method is correct.
+
+\subsection{Known 3x3-matrix}
+Another positive definite matrixis: 
+\begin{align*}
+	A = \begin{bmatrix}
+		2 & -1 & 0 \\
+		-1 & 2 & -1 \\
+		0 & -1 & 2 \\
+	\end{bmatrix} \\
+\end{align*}
+This matrix has positive eigenvalues that are calculated using armadillos eig_sym-function. The test is passed if the three eigenvalues are the same.
+
+There is also a function that creates a random symmetric matrix of size $(n\times n)$, and checks the jacobi-algortihm versus armadillos eig_sym-function.
+
+\section{Conclusion and discussion}
