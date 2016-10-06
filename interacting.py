@@ -75,7 +75,8 @@ non_eigvecs = old_data['eigvecs'] # non-interacting eigvecs
 
 # for end plot between omegas
 pl.figure("allground")
-pl.hold(True); pl.grid(True)
+pl.figure("frontpage")
+pl.xkcd(); pl.hold(True); #pl.grid(True)
 pl.plot(rho, non_eigvecs[0], label='Non-interacting')
 
 for r, omega in enumerate(omegas):
@@ -107,7 +108,7 @@ for r, omega in enumerate(omegas):
             print write2file("lambda_%d = %e"%(i,eigvals[i]))
 
     # plots eigenvectors relevant to current omega
-    pl.figure("interact%d"%r)
+    pl.figure("frontpage")
     pl.hold(True); pl.grid(True)
     eigvecs = data['eigvecs']
     
@@ -119,17 +120,17 @@ for r, omega in enumerate(omegas):
     pl.title(r'Non-interactive- vs Interactive Eigenvectors for $\omega_r$ = %.2f' % omega)
     pl.xlabel(r'$\rho$')
     pl.ylabel(r'$v$')
-    pl.legend(loc='best')
+    #pl.legend(loc='best')
     pl.savefig("interacting_eigvecs_at_omega=%d.png" %int(omega*1000), dpi=300)
 
     # plots the comparison plots of interacting eigenvectors
-    pl.figure("allground")
+    pl.figure("frontpage")
     pl.plot(rho, eigvecs[0], label=r'$\omega_r$ = %.2f' % omega )
 
-pl.title(r'Comparison plot between interacting $\omega_r$ variants and non-interactive eigenvectors')
+pl.title(r'Wavefunctions')
 pl.xlabel(r'$\rho$')
-pl.ylabel(r'$v$')
-pl.legend(loc='best')
+pl.ylabel(r'$\phi(\rho)$')
+#pl.legend(loc='best')
 pl.savefig('eigvecs_vs_each_other.png')
 
 pl.show()
