@@ -470,7 +470,8 @@ For one electron the three lowest eigenvalues should be 3, 7 and 11. As one can 
 From the very same data-set it becomes clear that there is a dependency on $\rho_N$. Consider this if $\rho_N$ is to small then the wavefunction will not be significantly close enough to zero, meaning that the eigenvalues will represent an incomplet wavefunction. This becomes the wrong eigenvalue. On the other hand, if $\rho_N$ becomes to large the steplength increases, and if the steplength increases then the accuracy of the "integral" is lowered.
 
 Another fact that emerges from the dataset is the dependency on N. Considering the equation, a matrix of size 3 should be able to give you three eigenvalues, but these will be wrong. In order to find the real eigenvalues, and real eigenvectors the system must rotate many times, this is achieved by incerasing the size of A.
-When we study the interactive case between two electrons 
+
+When we study the interactive case between two electrons, figure \ref{fig:eigvecs-interact10} through \ref{fig:eigvecs-interact5000}, we actually see that the eigenvector functions lay themselves exactly on top of the non-interactive case. This is not supposed to happen unless we have done something horribly wrong in the mathematics or the numerical routines, or the eigenfunctions are supposed to be infinitely improbable. The same goes for the illustration of grounded states' eigenvectors, figure \ref{fig:ground-eigvecs-compare}. The fault that creates this mess is probably some easy mistake within the \verb|C++| part of the program.
 
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
