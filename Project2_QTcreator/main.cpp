@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         filename += "_omega=" + to_string( (int) (1000.0*omega));
     }
     filename += ".dat";
-    */
+
     ofstream outfile;
     outfile.open(filename, std::ofstream::out);
     for (int i=0; i<3; i++){
