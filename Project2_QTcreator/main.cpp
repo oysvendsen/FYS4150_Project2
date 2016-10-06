@@ -1,6 +1,6 @@
 #include <iostream>
-#include <armadillo>
 #include <cmath>
+#include <armadillo>
 
 using namespace std;
 using namespace arma;
