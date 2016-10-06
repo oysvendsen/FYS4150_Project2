@@ -1,6 +1,7 @@
 #include <iostream>
 #include <armadillo>
 #include <cmath>
+#include <string>
 
 using namespace std;
 using namespace arma;
@@ -21,9 +22,8 @@ int main(int argc, char *argv[])
     double rho_0 = 0.0; //starting point of array
     double rho_n = 10.0; //ending point of array
     double omega = 0.0; //HO-angular frequency
-    int n = 5; //size of arrays
+    int n = 100; //size of arrays
     bool interact = false; //interacting or non-interacting electrons
-    char* filename;
 
     // fetch cmd-line arguments
     if (argc == 2){
@@ -64,12 +64,23 @@ int main(int argc, char *argv[])
 
     uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
 
-    //filename = "../data/test.dat";
+    string filename = "../data/project2";
+    filename += "_test.dat";
+    /*
     if (interact) {
-        filename = "../data/noninteract_project2_.dat";
+        filename += "_interacting";
     } else {
-        filename = "../data/interact_project2_.dat";
+        filename += "_noninteracting";
     }
+    filename += "_rho0=" + to_string( (int) rho_0 );
+    /*
+    filename += "_rho_N=" + to_string(atoi(rho_n));
+    filename += "_N=" + to_string(atoi(n));
+    if (omega != 0) {
+        filename += "_omega=" + to_string(atoi(1000.0*omega));
+    }
+    filename += ".dat";
+    */
     ofstream outfile;
     outfile.open(filename, std::ofstream::out);
     for (int i=0; i<3; i++){
