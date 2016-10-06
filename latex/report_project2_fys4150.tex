@@ -345,6 +345,9 @@ The result is a program that finds the eigenvalues and eigenvectors, within a se
 This algorithm can also handle two electrons in a potential field. For example can the eigenvalues of the two electrons in section \ref{sec:2electrons} can be numerically calculated by switching $\rho^2$ with $\omega_r^2\rho^2 + \frac{1}{\rho}$ in the matrix A.
 
 \section{Results}
+Dataoutput from determining the $\rho_N$ and N dependencies.
+\lstinputlisting{../pythondata/noninteracting.dat}
+
 \begin{figure}[H]
  \center
  	\begin{subfigure}[t]{0.45\textwidth}
@@ -400,9 +403,44 @@ This algorithm can also handle two electrons in a potential field. For example c
 
 \section{Explanation of programs}
 \subsection{Unit tests} \label{sec:unit tests}
-%TODO
-%orthogonality
-%symmetry
+The c++-program 'main.cpp' has four unit tests that can be implemented to continously check that the mathematical properties of the program are upheld.
+The tests check symmetry of a matrix, orthogonality of eigenvectors, and three functions that have known solutions.
+\subsubsection{Symmetry}
+Symmetry is checked by measuring the difference squared between symmetric elements. This 'epsilon' is then summed for all off-diagonal elements and checked against a set tolerance.
+Since a matrix can have numerical error(it won't in our case but could in theory), the total accumulated error in symmetry must be smaller then a set tolerance(usually a magnitude of -10) to pass the unit test.
+\subsection{Orthogonality}
+Orthogonality, see section \ref{sec:orthogonality}, is checked by taking the matrix R of all eigenvectors and computing $R^TR = \eye$. This must be within some tolerance ofcourse, for the same reason as above.
+\subsection{Known 2x2-matrix}
+The solution to the equation 
+$$\begin{bmatrix}
+	2 & 1 \\ 1 & 2
+\end{bmatrix} \vec{v} = \lambda	 \vec{v} $$ 
+can easily be calculated by hand.
+With the eigenvalues 
+$\lambda = 1 \Lambda 3$ 
+with the corresponding eigenvectors 
+$\vec{v} = \begin{bmatrix}
+1 \\ -1
+\end{bmatrix} \Lambda \begin{bmatrix}
+1 \\ 1
+\end{bmatrix}$. 
+This can be used to test the Jacobi algorithm, by performing it on the matrix, and checking that the result from the method matches the analytical results.
+
+Note that the eigenvectors would not be unitary, but as long as the eigenvectors are proprtional to the analytical solutions the method is correct.
+
+\subsection{Known 3x3-matrix}
+Another positive definite matrixis: 
+\begin{align*}
+	A = \begin{bmatrix}
+		2 & -1 & 0 \\
+		-1 & 2 & -1 \\
+		0 & -1 & 2 \\
+	\end{bmatrix}
+\end{align*}
+This matrix has positive eigenvalues that are calculated using armadillos eig\_sym-function. The test is passed if the three eigenvalues are the same.
+
+There is also a function that creates a random symmetric matrix of size $(n\times n)$, and checks the jacobi-algortihm versus armadillos eig\_sym-function.
+
 \subsection{main.cpp}
 For the program to implement the math explained above, a script was initially created in python to assess the methods in a more familiar language, \verb|Python|. Having got the hang of a few of the necessary routines, writing of the mandatory \verb|C++| script was initiated, which is now being initialized from a \verb|Python| script that runs through the necessary combinations of $\rho_N$, $\omega$, and $N$ in two forms - a non-interacting electron case, and a double interacting electron case.
   
@@ -426,13 +464,19 @@ The main body of the program begins by creating and collecting necessary variabl
  These are subsequently extracted into the \verb|Python| script that main.cpp was initiated from, for storage and a few bits of utilization; for instance checking if the eigenvalues pass a tolerance test compared with analytical values, not to mention the plots that are made for comparisons between the different values of $\rho_N$, $\omega$, and $N$.
 
 \section{Conclusion and discussion}
+%one electron
+%TODO data from one electron
+%rhoN dependency
+%N dependency
+%two electrons
+%plots for ground states (one, two, three bumps)
+%plots against  
+
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
 
 
 We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
-
-
 
 \begin{thebibliography}{9}
 \bibitem{example_code}
@@ -456,52 +500,3 @@ Algebra methods,
 \end{thebibliography}
 \end{document}
 
-\subsection{Unit tests} \label{sec:unit tests}
-The c++-program 'main.cpp' has four unit tests that can be implemented to continously check that the mathematical properties of the program are upheld.
-The tests check symmetry of a matrix, orthogonality of eigenvectors, and three functions that have known solutions.
-\subsubsection{Symmetry}
-Symmetry is checked by measuring the difference squared between symmetric elements. This 'epsilon' is then summed for all off-diagonal elements and checked against a set tolerance.
-Since a matrix can have numerical error(it won't in our case but could in theory), the total accumulated error in symmetry must be smaller then a set tolerance(usually a magnitude of -10) to pass the unit test.
-\subsection{Orthogonality}
-Orthogonality, see section \ref{sec:orthogonality}, is checked by taking the matrix R of all eigenvectors and computing $R^TR = \eye$. This must be within some tolerance ofcourse, for the same reason as above.
-\subsection{Known 2x2-matrix}
-The solution to the equation 
-$$\begin{bmatrix}
-	2 & 1 \\ 1 & 2
-\end{bmatrix} \vec{v} = \lambda	 \vec{v} $$ 
-can easily be calculated by hand.
-With the eigenvalues 
-$\lamdba = 1 \Lambda 3$ 
-with the corresponding eigenvectors 
-$\vec{v} = \begin{bmatrix}
-1 \\ -1
-\end{bmatrix} \Lambda \begin{bmatrix}
-1 \\ 1
-\end{bmatrix}$. 
-This can be used to test the Jacobi algorithm, by performing it on the matrix, and checking that the result from the method matches the analytical results.
-
-Note that the eigenvectors would not be unitary, but as long as the eigenvectors are proprtional to the analytical solutions the method is correct.
-
-\subsection{Known 3x3-matrix}
-Another positive definite matrixis: 
-\begin{align*}
-	A = \begin{bmatrix}
-		2 & -1 & 0 \\
-		-1 & 2 & -1 \\
-		0 & -1 & 2 \\
-	\end{bmatrix} \\
-\end{align*}
-This matrix has positive eigenvalues that are calculated using armadillos eig_sym-function. The test is passed if the three eigenvalues are the same.
-
-There is also a function that creates a random symmetric matrix of size $(n\times n)$, and checks the jacobi-algortihm versus armadillos eig_sym-function.
-
-\section{Conclusion and discussion}
-\lststyle{txtstyle}
-\lstinputlisting{../pythondata/noninteracting.dat}
-%one electron
-%TODO data from one electron
-%rhoN dependency
-%N dependency
-%two electrons
-%plots for ground states (one, two, three bumps)
-%plots against 
