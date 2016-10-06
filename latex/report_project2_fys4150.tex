@@ -344,7 +344,7 @@ The result is a program that finds the eigenvalues and eigenvectors, within a se
 
 This algorithm can also handle two electrons in a potential field. For example can the eigenvalues of the two electrons in section \ref{sec:2electrons} can be numerically calculated by switching $\rho^2$ with $\omega_r^2\rho^2 + \frac{1}{\rho}$ in the matrix A.
 
-\section{Results} \label{sec:results}
+\section{Results}
 Dataoutput from determining the $\rho_N$ and N dependencies.
 \lstinputlisting{../pythondata/noninteracting.dat}
 
@@ -372,7 +372,7 @@ Dataoutput from determining the $\rho_N$ and N dependencies.
  		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
  		\caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
  \end{subfigure}
- 	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
+ 	\caption{A set of ground state for interactions at different values of $\rho_N$ and $N$.}\label{fig:eigvecs-non-interact}
  \end{figure}
  \begin{figure}[H]
  \center
@@ -464,18 +464,19 @@ The main body of the program begins by creating and collecting necessary variabl
  These are subsequently extracted into the \verb|Python| script that main.cpp was initiated from, for storage and a few bits of utilization; for instance checking if the eigenvalues pass a tolerance test compared with analytical values, not to mention the plots that are made for comparisons between the different values of $\rho_N$, $\omega$, and $N$.
 
 \section{Conclusion and discussion}
-%one electron
+
 For one electron the three lowest eigenvalues should be 3, 7 and 11. As one can tell from the data-set in section \ref{sec:results} the results are very close for large values of n. However, even at n=400 we only got the accuracy of our eigenvalues down to two leading digits. If we want the accuracy to four leading digits the number of grid-points must be alot higher then 400, and out of the reach of our small laptops.
-%rhoN dependency
+
 From the very same data-set it becomes clear that there is a dependency on $\rho_N$. Consider this if $\rho_N$ is to small then the wavefunction will not be significantly close enough to zero, meaning that the eigenvalues will represent an incomplet wavefunction. This becomes the wrong eigenvalue. On the other hand, if $\rho_N$ becomes to large the steplength increases, and if the steplength increases then the accuracy of the "integral" is lowered.
-%N dependency
+
 Another fact that emerges from the dataset is the dependency on N. Considering the equation, a matrix of size 3 should be able to give you three eigenvalues, but these will be wrong. In order to find the real eigenvalues, and real eigenvectors the system must rotate many times, this is achieved by incerasing the size of A.
-%two electrons
-%plots for ground states (one, two, three bumps)
-%plots against  
+When we study the interactive case between two electrons 
 
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
+
+
+We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
 
 \begin{thebibliography}{9}
 \bibitem{example_code}
@@ -495,9 +496,7 @@ Another fact that emerges from the dataset is the dependency on N. Considering t
 Algebra methods, 
 	viewed $27^{th}$ September 2016, 
 	\url{http://compphysics.github.io/ComputationalPhysics/doc/pub/linalg/pdf/linalg-print.pdf} p.12. 
+
 \end{thebibliography}
-
-We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
-
 \end{document}
 
