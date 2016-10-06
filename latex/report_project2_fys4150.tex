@@ -344,7 +344,7 @@ The result is a program that finds the eigenvalues and eigenvectors, within a se
 
 This algorithm can also handle two electrons in a potential field. For example can the eigenvalues of the two electrons in section \ref{sec:2electrons} can be numerically calculated by switching $\rho^2$ with $\omega_r^2\rho^2 + \frac{1}{\rho}$ in the matrix A.
 
-\section{Results} \label{sec:results}
+\section{Results}
 Dataoutput from determining the $\rho_N$ and N dependencies.
 \lstinputlisting{../pythondata/noninteracting.dat}
 
@@ -395,7 +395,7 @@ Dataoutput from determining the $\rho_N$ and N dependencies.
  		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
  	\end{subfigure}
  	\begin{subfigure}[t]{0.45\textwidth}
- 		\includegraphics[scale=0.40]{../eigvecs_vs_each_other_.png}
+ 		\includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
  		\caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
  	\end{subfigure}
  	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
@@ -465,7 +465,7 @@ The main body of the program begins by creating and collecting necessary variabl
 
 \section{Conclusion and discussion}
 %one electron
-For one electron the three lowest eigenvalues should be 3,7 and 11. As one can tell from the data-set in section \ref{sec:results} the results are very close for large values of n. However, even at n=400 we only got the accuracy of our eigenvalues
+%TODO data from one electron
 %rhoN dependency
 %N dependency
 When we study the interactive case between two electrons 
@@ -474,6 +474,9 @@ When we study the interactive case between two electrons
 
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
+
+
+We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
 
 \begin{thebibliography}{9}
 \bibitem{example_code}
@@ -493,9 +496,7 @@ When we study the interactive case between two electrons
 Algebra methods, 
 	viewed $27^{th}$ September 2016, 
 	\url{http://compphysics.github.io/ComputationalPhysics/doc/pub/linalg/pdf/linalg-print.pdf} p.12. 
+
 \end{thebibliography}
-
-We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
-
 \end{document}
 
