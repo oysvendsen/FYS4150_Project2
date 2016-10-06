@@ -18,13 +18,14 @@ bool unit_symmetry(mat& A, int n, double tol);
 bool unit_orthogonality(mat& matrix, int shape, double tol);
 int unit_known();
 int unit_known_arma();
+int unit_known_arma_n(int n);
 
 int main(int argc, char *argv[])
 {
     //unit tests
     //unit_known();
-    unit_known_arma();
-    exit(0);
+    //unit_known_arma();
+    //unit_known_arma_n(4);
 
     //declare variables
     double h; //step-length,
@@ -90,9 +91,8 @@ int main(int argc, char *argv[])
     cout << "name of datafile: " << filename << endl;
     ofstream outfile;
     outfile.open(filename);
-    cout << "is datafile open? " << outfile.is_open() << endl;
-    //sort eigenvalues
-    uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
+
+    uvec indeces_sorted = sort_index(lambda, "ascend"); // array of indeces of lambda when sorted
     for (int i=0; i<3; i++){
         int sort_i = indeces_sorted(i);
         outfile << lambda(sort_i) << endl;
@@ -383,17 +383,25 @@ int unit_known_arma() {
     return 0;
 }
 
-
-int unit_known_arma_n() {
+int unit_known_arma_n(int n) {
     /* This unit test will check the compute the eigenvalues and eigenvectors
      * of a 4x4-matrix using the integrated jacobi-solver.
      * Thereafter the values will be checked against armadillos eigsys-function.
      */
     double val, tol;
-    int n = 3;
     tol = 1e-10;
-    mat A_test = {{2,-1,0},{-1, 2,-1},{0,-1,2}};
-    mat A_arma = A_test;
+    mat rand = randu(n,n);
+    mat A_test(n,n);
+    mat A_arma(n,n);
+    for (int i=0; i<n; i++){
+        for(int j=i; j<n; j++){
+            val = rand(i,j);
+            A_test(i,j) = val;
+            A_test(j,i) = val;
+            A_arma(i,j) = val;
+            A_arma(j,i) = val;
+        }
+    }
     mat R_test(n,n);
     vec lambda_test(n);
     vec lambda_test_sorted(n);
@@ -406,6 +414,7 @@ int unit_known_arma_n() {
         int sort_i = indeces_sorted(i);
         lambda_test_sorted(i) = lambda_test(sort_i);
     }
+    lambda_test_sorted.print();
     eig_sym(lambda_arma, A_arma);
     for (int i=0; i<n; i++){
         if (abs(lambda_arma(i) - lambda_test_sorted(i)) > tol){

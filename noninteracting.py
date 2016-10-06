@@ -21,11 +21,11 @@ def get_arrays(filename):
     eigvals = []
     eigvecs = []
     #sort out columns as arrays in dictionary
-    for line in np.arange(len(data_splat) - 1):
-        if line % 2 == 0:
-            eigvals.append(np.float64(data_splat[line][0]))
+    for i in np.arange(len(data_splat) - 1):
+        if i % 2 == 0:
+            eigvals.append(np.float64(data_splat[i]))
         else:
-            line_list = np.array(data_splat[line].split(', '))
+            line_list = np.array(data_splat[i].split(', '))
             eigvecs.append(line_list.astype(np.float64))
     data_dict = {'lambda': np.array(eigvals), 'eigvecs': np.array(eigvecs)}
 
@@ -58,8 +58,8 @@ def write2file(outstring,
 
 eig_tol = 1e-4
 eig_known = np.array([3.0, 7.0, 11.0])
-rho_N_range = np.array([1.0, 5.0, 10.0])
-N_range = np.array([50, 100, 150, 200, 300])
+rho_N_range = np.array([5, 10.0, 50])
+N_range = np.array([50, 100, 150, 200,])
 write2file("New data-file", append=False)
 
 # ./main.cpp n rho_N
