@@ -24,27 +24,28 @@ int main(int argc, char *argv[])
     double omega = 0.0; //HO-angular frequency
     int n = 5; //size of arrays
     bool interact = false; //interacting or non-interacting electrons
+    char* filename;
 
     // fetch cmd-line arguments
-    if (argc == 1){
-        n = argv[1];
-    } else if (argc == 2) {
-        n = argv[1];
-        rho_n = argv[2];
+    if (argc == 2){
+        n = atoi(argv[1]);
     } else if (argc == 3) {
-        n = argv[1];
-        rho_0 = argv[2];
-        rho_n = argv[3];
+        n = atoi(argv[1]);
+        rho_n = atof(argv[2]);
     } else if (argc == 4) {
-        n = argv[1];
-        rho_0 = argv[2];
-        rho_n = argv[3];
-        omega = argv[4];
-    }else if (argc == 5) {
-        n = argv[1];
-        rho_0 = argv[2];
-        rho_n = argv[3];
-        omega = argv[4];
+        n = atoi(argv[1]);
+        rho_0 = atof(argv[2]);
+        rho_n = atof(argv[3]);
+    } else if (argc == 5) {
+        n = atoi(argv[1]);
+        rho_0 = atof(argv[2]);
+        rho_n = atof(argv[3]);
+        omega = atof(argv[4]);
+    }else if (argc == 6) {
+        n = atoi(argv[1]);
+        rho_0 = atof(argv[2]);
+        rho_n = atof(argv[3]);
+        omega = atof(argv[4]);
         interact = true;
     }
 
@@ -68,13 +69,31 @@ int main(int argc, char *argv[])
     //solve eigenvectors and eigenvalues using jacobi's method
     solve_jacobi(A, R, lambda, n);
 
+    lambda.print(); exit(0);
+    uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
+
+    filename = "../data/test.dat";
+    //remove(filename) //delete old file
+    ofstream outfile;
+    outfile.open(filename, std::ofstream::out);
+    for (int i=0; i<n; i++){
+        int sort_i = indeces_sorted(i);
+        outfile << "lambda_" << i << endl;
+        outfile << lambda(sort_i) << endl;
+        outfile << "vec_" << i << endl;
+        for (int j=0; j<n; j++){
+            outfile << R(j,sort_i) << endl;
+        }
+    }
+    outfile.close();
+
     return 0;
 } //END: main
 
 void singular_electron_matrix(mat &A, vec &rho, double h, int n){
     /* remake the matrix A to match a single electron with
      * length array rho of length n*/
-    double di, ei;
+    double di, ei, V;
     double h2_inv = 1.0/(h*h); //precalculate 1/h^2
 
     //set all matrix elements to zero
@@ -86,7 +105,8 @@ void singular_electron_matrix(mat &A, vec &rho, double h, int n){
 
     //calulate diagonal d = rho^2 + 2/h^2
     for (int i=0; i<n; i++){
-        di = rho(i)*rho(i) + 2.0*h2_inv;
+        V = rho(i)*rho(i);
+        di = V + 2.0*h2_inv;
         A(i,i) = di;
     }
 
@@ -98,10 +118,10 @@ void singular_electron_matrix(mat &A, vec &rho, double h, int n){
     }
 } //END: singular_electron_matrix
 
-void double_electron_matrix(mat &A, vec &rho, double h, int n){
+void double_electron_matrix(mat &A, vec &rho, double omega_r, double h, int n){
     /* remake the matrix A to match a single electron with
      * length array rho of length n*/
-    double di, ei;
+    double di, ei, V;
     double h2_inv = 1.0/(h*h); //precalculate 1/h^2
 
     //set all matrix elements to zero
@@ -113,7 +133,8 @@ void double_electron_matrix(mat &A, vec &rho, double h, int n){
 
     //calulate diagonal d = rho^2 + 2/h^2
     for (int i=0; i<n; i++){
-        di = rho(i)*rho(i) + 2.0*h2_inv;
+        V = omega_r*rho(i)*rho(i) - 1.0/rho(i);
+        di = V + 2.0*h2_inv;
         A(i,i) = di;
     }
 
@@ -123,11 +144,7 @@ void double_electron_matrix(mat &A, vec &rho, double h, int n){
         A(i,i+1) = ei;
         A(i+1,i) = ei;
     }
-    cout << "ERROR: function double_electron_matrix not finished" << endl;
-    exit(1);
 } //END: double_electron_matrix
-
-
 
 double find_largest(mat &A, int &max_i, int &max_j, int n){
     /* Take matrix A and calculate the difference squared between the upper triangle
@@ -220,7 +237,6 @@ bool unit_orthogonality(mat &A, int shape, double tol){
 void jacobi_rotation(mat &A, mat &R, int k, int l, int n){
     /* Take a matrix A and turn it to matrix B by jacobi_rotation. */
     double tau, t, s, c, a_kk, a_ll, a_ik, a_il, r_ik, r_il;
-
     if (A(k,l) == 0){
         c = 1;
         s = 0;
