@@ -284,7 +284,7 @@ By defintion, $S^T$ and $S$ are unitary matrices. So to test for conservation of
 
 This makes for a good test at every iteration to test that the rotation is preserving orthogonality.
 
-\subsubsection{Two electrons in harmonic oscillator} 
+\subsection{Two electrons in harmonic oscillator} 
 \label{sec:2electrons}
 Remember that for one electron the \SE\ in \eqref{eq:SE 1e} turned into:
 \begin{equation}
@@ -298,6 +298,25 @@ If there where two electrons in this potential well, one at $r_1$ and one at $r_
 	\left(-\frac{\hbar^2}{2m} \frac{d^2}{dr_1^2} - \frac{\hbar^2}{2m} \frac{d^2}{dr_2^2} + \frac{1}{2}k r_1^2 + \frac{1}{2}k r_2^2\right)u(r_1,r_2) = E u(r_1,r_2)
 \end{equation} 
 
+Introducing a center-of-mass system ($\vec{R} = \frac{1}{2}(\vec{r}_1+\vec{r}_2)$) and relative coordinate ($\vec{r} = \vec{r}_1 - \vec{r}_2$) and adding the 
+coulomb potential between two electrons($V = \frac{\beta q_e^2}{|\vec{r}_1-\vec{r}_2|} = \frac{\beta q_e^2}{r}$).
+\begin{align*}
+	\left(-\frac{\hbar^2}{m} \frac{d^2}{dr^2} - \frac{\hbar^2}{4m} \frac{d^2}{dR^2} + \frac{1}{4}k r^2 + k R^2\right)u(r,R) &= E u(r,R)
+	\intertext{separating $u(r,R)$ into $u_r(r)u_R(R)$ and including the potenial.}
+	\left(-\frac{\hbar^2}{m} \frac{d^2}{dr^2} + \frac{1}{4}k r^2 + V\right)u_r &= E_r u_r
+	\intertext{introducing dimensionless length $\rho = r/\alpha$}
+	-\frac{\hbar^2}{m\alpha^2} \frac{d^2u_r(r)}{d\rho^2} + \frac{k\alpha^2}{4} \rho^2u_r(r) + \frac{\beta q_e^2}{\alpha \rho}u_r(r) &= E_r u_r(r) \\
+	-\frac{d^2u_r(r)}{d\rho^2} + \frac{m\alpha^2}{\hbar^2}\frac{k\alpha^2}{4} \rho^2u_r(r) + \frac{m\alpha}{\hbar^2}\frac{\beta q_e^2}{\rho}u_r(r) &= \frac{m\alpha^2}{\hbar^2} E_r u_r(r) \\
+	-\frac{d^2u_r(r)}{d\rho^2} + \frac{mk\alpha^4}{4\hbar^2} \rho^2u_r(r) + \frac{m\alpha\beta q_e^2}{\hbar^2\rho}u_r(r) &= \frac{m\alpha^2}{\hbar^2} E_r u_r(r)
+	\intertext{by defining $\omega_r$, $\alpha$ and $\lambda_r$, this equation simplifies}
+	\omega_r^2 \equiv \frac{mk\alpha^4}{4\hbar^2} \indent
+	\frac{m\alpha\beta q_e^2}{\hbar^2} & \equiv 1 \indent
+	\lambda_r = \frac{m\alpha^2}{\hbar^2} E_r \\
+	-\frac{d^2u_r(r)}{d\rho^2} + \omega_r^2\rho^2u_r(r) + \frac{1}{\rho}u_r(r) &= \lambda_ru_r(r)
+\end{align*}
+
+Previously in this section a similar problem was rewritten into a matrix equation \eqref{eq:matrix}, and here the same can be done. In this case however the matrix A would have $\omega_r^2\rho^2 + \frac{1}{\rho}$ instead of $\rho^2$.
+
 \section{Method} \label{sec:method}
 Jacobi's method is based on a series of rotations, that slowly eliminate all off-diagonal elements. 
 
@@ -308,11 +327,13 @@ the other elements of those rows and columns can never grow larger then the valu
 
 When this method finally converges the matrix left is a diagonal matrix, and looking back at the original matrix equation \eqref{eq:matrix} these diagonal values will also be the eigenvalues of the system of equations.
 
-Numerically the matrix is said to have converged when $\varepsilon = \sum_{i=0}^N \sum_{j\neq i} a_{i,j}^2$ is less then $10^{-8}$, in order to account for numerical precision. \\
+Numerically the matrix is said to have converged when $\varepsilon = \sum_{i=0}^N \sum_{j\neq i} a_{i,j}^2$ is less then $10^{-8}$, in order to account for numerical precision.
 
 Thus the eigenvalues are found, but the eigenvectors cannot be read from this matrix alone. The eigenvectors are found by starting with a orthonormal basis of vectors(the simplest in the unity matrix) and perform the exact same rotations of this basis as the matrix A.
 
 The result is a program that finds the eigenvalues and eigenvectors, within a set tolerance, of a matrix that is quadratic and symmetric.
+
+This algorithm can also handle two electrons in a potential field. For example can the eigenvalues of the two electrons in section \ref{sec:2electrons} can be numerically calculated by switching $\rho^2$ with $\omega_r^2\rho^2 + \frac{1}{\rho}$ in the matrix A.
 
 \section{Explanation of programs}
 \subsection{Unit tests} \label{sec:unit tests}
@@ -347,67 +368,69 @@ These are subsequently extracted into the \verb|Python| script that main.cpp was
 For the non-interacting cases of the numerical eigenvector extraction, these plots were yielded by use of the scripts.
 \begin{figure}[H]
 \center
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=50.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 50$.}\label{fig:eigvecs-non-interact-1-50}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=100.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 100$.}\label{fig:eigvecs-non-interact-1-100}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=300.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 300$.}\label{fig:eigvecs-non-interact-10-300}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=400.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 400$.}\label{fig:eigvecs-non-interact-10-400}
-	\end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=50.png}
+        \caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 50$.}\label{fig:eigvecs-non-interact-1-50}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=1_N=100.png}
+        \caption{Non-interactive eigenvectors for $\rho_N = 1$, $N = 100$.}\label{fig:eigvecs-non-interact-1-100}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=300.png}
+        \caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 300$.}\label{fig:eigvecs-non-interact-10-300}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=10_N=400.png}
+        \caption{Non-interactive eigenvectors for $\rho_N = 10$, $N = 400$.}\label{fig:eigvecs-non-interact-10-400}
+    \end{subfigure}
 \begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
-		\caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
+        \includegraphics[scale=0.40]{../non_interacting_eigvec_plot_rhoN=50_N=200.png}
+        \caption{Non-interactive eigenvectors for $\rho_N = 50$, $N = 200$.}\label{fig:eigvecs-non-interact-50-200}
 \end{subfigure}
-	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
+    \caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-non-interact}
 \end{figure}
 For the interacting cases of the numerical eigenvector extraction, these plots were yielded by use of the scripts.
 \begin{figure}[H]
 \center
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=10.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.01$.}\label{fig:eigvecs-interact10}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=500.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.5$.}\label{fig:eigvecs-interact500}
-	\end{subfigure}
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=1000.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 1$.}\label{fig:eigvecs-interact1000}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=5000.png}
-		\caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
-	\end{subfigure}
-	\begin{subfigure}[t]{0.45\textwidth}
-		\includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
-		\caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
-	\end{subfigure}
-	\caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=10.png}
+        \caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.01$.}\label{fig:eigvecs-interact10}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=500.png}
+        \caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 0.5$.}\label{fig:eigvecs-interact500}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=1000.png}
+        \caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 1$.}\label{fig:eigvecs-interact1000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../interacting_eigvecs_at_omega=5000.png}
+        \caption{Ground state eigenvectors for both interacting and non-interacting case, at $\omega_r = 5$.}\label{fig:eigvecs-interact5000}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.45\textwidth}
+        \includegraphics[scale=0.40]{../eigvecs_vs_each_other.png}
+        \caption{A non-interacting ground eigenvector, plotted for comparison to ground eigenvectors related to different values of $\omega_r$.}\label{fig:ground-eigvecs-compare}
+    \end{subfigure}
+    \caption{A set of ground state for interactions at different values of $\omega_r$.}\label{fig:eigvecs-interact}
 \end{figure}
 
 
 \section{Conclusion and discussion}
 \section{Appendix - Github} \label{section:github}
 \url{https://github.com/theknight1509/FYS4150_Project2}
-\section{References}
+
+
 We got a lot of inspiration from the example-code in \cite[web-site]{example_code}
 
-\begin{thebibliography}{9}
 
+
+\begin{thebibliography}{9}
 \bibitem{example_code}
   Jensen, M 2016,
   program1.cpp,
