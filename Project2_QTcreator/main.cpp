@@ -65,19 +65,17 @@ int main(int argc, char *argv[])
     uvec indeces_sorted = sort_index(lambda); // array of indeces of lambda when sorted
 
     string filename = "../data/project2";
-    filename += "_test.dat";
-    /*
+    //filename += "_test.dat";
     if (interact) {
         filename += "_interacting";
     } else {
         filename += "_noninteracting";
     }
     filename += "_rho0=" + to_string( (int) rho_0 );
-    /*
-    filename += "_rho_N=" + to_string(atoi(rho_n));
-    filename += "_N=" + to_string(atoi(n));
+    filename += "_rho_N=" + to_string( (int) rho_n);
+    filename += "_N=" + to_string( (int)n);
     if (omega != 0) {
-        filename += "_omega=" + to_string(atoi(1000.0*omega));
+        filename += "_omega=" + to_string( (int) (1000.0*omega));
     }
     filename += ".dat";
     */
